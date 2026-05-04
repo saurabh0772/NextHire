@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const PastRecruiters = () => {
   const [companies, setCompanies] = useState([]);
@@ -8,7 +9,9 @@ const PastRecruiters = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/v1/company/past-recruiters');
+        const response = await fetch(`${BASE_URL}/api/v1/company/past-recruiters`, {
+          credentials: "include"
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch companies');
         }

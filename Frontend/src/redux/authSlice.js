@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:8000/api/v1/user/update-profile', {
+      const response = await fetch(`${BASE_URL}/api/v1/user/update-profile`, {
         method: 'PUT',
         credentials: 'include',
         body: formData,
