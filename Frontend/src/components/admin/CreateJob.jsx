@@ -10,6 +10,7 @@ import { Briefcase, Building2, IndianRupee } from 'lucide-react'
 import { toast } from 'sonner'
 import axios from 'axios'
 
+
 const CreateJob = () => {
     const { companies } = useSelector(store => store.company);
     const navigate = useNavigate();
@@ -30,12 +31,19 @@ const CreateJob = () => {
         e.preventDefault();
         try {
             setLoading(true);
+            const BASE_URL = import.meta.env.VITE_API_URL;
             const postData = {
                 ...formData,
                 requirements: formData.requirements.split(',').map(req => req.trim())
             };
             console.log('Posting job data:', postData);
-            const response = await axios.post('/api/v1/job/post', postData);
+            const response = await axios.post(
+                `${BASE_URL}/api/v1/job/post`,
+                postData,
+                {
+                    withCredentials: true
+                }
+            );
             toast.success('Job posted successfully!');
             navigate('/recruiter/jobs');
         } catch (error) {
@@ -81,7 +89,7 @@ const CreateJob = () => {
                             {/* Basic Information */}
                             <div className="space-y-4">
                                 <h2 className="text-xl font-semibold text-white">Basic Information</h2>
-                                
+
                                 <div className="space-y-4">
                                     <div>
                                         <label className="text-sm font-medium text-slate-400">Job Title</label>
@@ -102,7 +110,7 @@ const CreateJob = () => {
                                         <label className="text-sm font-medium text-slate-400">Company</label>
                                         <div className="relative mt-1">
                                             <Building2 className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 pointer-events-none" />
-                                            <Select 
+                                            <Select
                                                 required
                                                 value={formData.companyId}
                                                 onValueChange={(value) => handleSelectChange('companyId', value)}
@@ -112,8 +120,8 @@ const CreateJob = () => {
                                                 </SelectTrigger>
                                                 <SelectContent className="bg-slate-900 border-white/10">
                                                     {companies.map(company => (
-                                                        <SelectItem 
-                                                            key={company._id} 
+                                                        <SelectItem
+                                                            key={company._id}
                                                             value={company._id}
                                                             className="text-white hover:bg-white/5"
                                                         >
@@ -169,7 +177,7 @@ const CreateJob = () => {
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                         <div>
                                             <label className="text-sm font-medium text-slate-400">Job Type</label>
-                                            <Select 
+                                            <Select
                                                 required
                                                 value={formData.jobType}
                                                 onValueChange={(value) => handleSelectChange('jobType', value)}
@@ -179,8 +187,8 @@ const CreateJob = () => {
                                                 </SelectTrigger>
                                                 <SelectContent className="bg-slate-900 border-white/10">
                                                     {['Full-time', 'Part-time', 'Contract', 'Internship'].map(type => (
-                                                        <SelectItem 
-                                                            key={type} 
+                                                        <SelectItem
+                                                            key={type}
                                                             value={type}
                                                             className="text-white hover:bg-white/5"
                                                         >
@@ -193,7 +201,7 @@ const CreateJob = () => {
 
                                         <div>
                                             <label className="text-sm font-medium text-slate-400">Experience</label>
-                                            <Select 
+                                            <Select
                                                 required
                                                 value={formData.experience}
                                                 onValueChange={(value) => handleSelectChange('experience', value)}
@@ -203,8 +211,8 @@ const CreateJob = () => {
                                                 </SelectTrigger>
                                                 <SelectContent className="bg-slate-900 border-white/10">
                                                     {['Entry Level', 'Mid Level', 'Senior Level', 'Executive'].map(exp => (
-                                                        <SelectItem 
-                                                            key={exp} 
+                                                        <SelectItem
+                                                            key={exp}
                                                             value={exp}
                                                             className="text-white hover:bg-white/5"
                                                         >
@@ -221,7 +229,7 @@ const CreateJob = () => {
                             {/* Description */}
                             <div className="space-y-4">
                                 <h2 className="text-xl font-semibold text-white">Job Details</h2>
-                                
+
                                 <div className="space-y-4">
                                     <div>
                                         <label className="text-sm font-medium text-slate-400">Description</label>
