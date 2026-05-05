@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile } from '../redux/authSlice';
+import ResumeParser from './shared/ResumeParser';
+import { Sparkles, Save, Loader2, Upload } from 'lucide-react';
 
 const UpdateProfileDialog = () => {
   const dispatch = useDispatch();
@@ -14,6 +16,7 @@ const UpdateProfileDialog = () => {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [resume, setResume] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [openParser, setOpenParser] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -44,83 +47,87 @@ const UpdateProfileDialog = () => {
 
     try {
       const resultAction = await dispatch(updateProfile(formData));
-      console.log('Update profile result:', resultAction);
       if (updateProfile.fulfilled.match(resultAction)) {
         setSuccess('Profile updated successfully');
+        setTimeout(() => setSuccess(null), 3000);
       }
     } catch (err) {
       console.error('Update profile error:', err);
     }
   };
 
-  if (loading) {
-    return <div className="text-center p-4">Updating profile...</div>;
-  }
-
   return (
-    <div className="max-w-md mx-auto bg-white/10 backdrop-blur-md border border-white/20 text-white p-8 rounded-2xl shadow-lg">
-      <h2 className="text-xl font-bold mb-4">Update Profile</h2>
-      {error && <div className="text-red-500 mb-2">{error}</div>}
-      {success && <div className="text-green-500 mb-2">{success}</div>}
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div className="mb-4">
-          <label className="block mb-1">Full Name</label>
+    <div className="w-full">
+      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Edit Profile</h2>
+      
+      {error && <div className="p-3 mb-6 bg-rose-50 text-rose-600 rounded-xl text-sm font-medium">{error}</div>}
+      {success && <div className="p-3 mb-6 bg-emerald-50 text-emerald-600 rounded-xl text-sm font-medium">{success}</div>}
+      
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-5">
+        <div className="space-y-1.5">
+          <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Full Name</label>
           <input
             type="text"
             value={fullname}
             onChange={(e) => setFullname(e.target.value)}
-            className="w-full border border-gray-700 bg-slate-800 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block mb-1">Email</label>
+        
+        <div className="space-y-1.5">
+          <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Email Address</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-700 bg-slate-800 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block mb-1">Phone Number</label>
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Phone Number</label>
           <input
             type="text"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            className="w-full border border-gray-700 bg-slate-800 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium"
             required
           />
         </div>
+
         {user?.role !== 'recruiter' && (
           <>
-            <div className="mb-4">
-              <label className="block mb-1">Bio</label>
+            <div className="space-y-1.5">
+              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Bio</label>
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                className="w-full border border-gray-700 bg-slate-800 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows={3}
+                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium resize-none"
               />
             </div>
-            <div className="mb-4">
-              <label className="block mb-1">Skills (comma separated)</label>
+            <div className="space-y-1.5">
+              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Skills (comma separated)</label>
               <input
                 type="text"
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
-                className="w-full border border-gray-700 bg-slate-800 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="React, Node, Express..."
+                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium"
               />
             </div>
           </>
         )}
-        <div className="mb-4">
-          <label className="block mb-1">Profile Photo</label>
-          <label className="flex items-center space-x-4 cursor-pointer bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v4a1 1 0 001 1h3m10-6v6a1 1 0 001 1h3m-6 4v4m-4-4v4m-4-4v4" />
-            </svg>
-            <span>{profilePhoto ? profilePhoto.name : (user?.profilePhotoName || "Choose file")}</span>
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Profile Photo</label>
+          <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl cursor-pointer bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <div className="flex flex-col items-center justify-center pt-5 pb-6 text-slate-500">
+              <Upload className="w-6 h-6 mb-2 text-brand-500" />
+              <p className="text-sm font-medium">{profilePhoto ? profilePhoto.name : (user?.profilePhotoName || "Click to upload image")}</p>
+            </div>
             <input
               type="file"
               accept="image/*"
@@ -129,30 +136,52 @@ const UpdateProfileDialog = () => {
             />
           </label>
         </div>
+
         {user?.role !== 'recruiter' && (
-          <div className="mb-4">
-            <label className="block mb-1">Resume (PDF only)</label>
-            <label className="flex items-center space-x-4 cursor-pointer bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v4a1 1 0 001 1h3m10-6v6a1 1 0 001 1h3m-6 4v4m-4-4v4m-4-4v4" />
-              </svg>
-              <span>{resume ? resume.name : (user?.resumeName || "Choose file")}</span>
-              <input
-                type="file"
-                accept="application/pdf"
-                onChange={(e) => setResume(e.target.files[0])}
-                className="hidden"
-              />
-            </label>
+          <div className="space-y-1.5">
+            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Resume</label>
+            <div className="flex flex-col gap-3">
+              <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl cursor-pointer bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6 text-slate-500">
+                  <Upload className="w-6 h-6 mb-2 text-brand-500" />
+                  <p className="text-sm font-medium">{resume ? resume.name : (user?.resumeName || "Click to upload PDF")}</p>
+                </div>
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={(e) => setResume(e.target.files[0])}
+                  className="hidden"
+                />
+              </label>
+              
+              <button
+                type="button"
+                onClick={() => setOpenParser(true)}
+                className="w-full flex items-center justify-center gap-2 bg-violet-100 hover:bg-violet-200 text-violet-700 dark:bg-violet-900/30 dark:hover:bg-violet-900/50 dark:text-violet-400 px-4 py-3 rounded-xl transition-colors font-bold text-sm"
+              >
+                <Sparkles className="h-4 w-4" />
+                Auto-fill Profile with AI Resume Parser
+              </button>
+            </div>
           </div>
         )}
+
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-3.5 rounded-xl transition-all shadow-md shadow-brand-500/20 font-bold mt-4"
         >
-          Update Profile
+          {loading ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <>
+                <Save className="h-5 w-5" />
+                Save Changes
+            </>
+          )}
         </button>
       </form>
+      <ResumeParser open={openParser} setOpen={setOpenParser} />
     </div>
   );
 };

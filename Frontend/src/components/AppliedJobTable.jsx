@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
 import { Badge } from './ui/badge'
 import { useSelector } from 'react-redux'
 import { Building2, Calendar } from 'lucide-react'
@@ -10,46 +10,48 @@ const AppliedJobTable = () => {
     const getStatusColor = (status) => {
         switch (status.toLowerCase()) {
             case 'rejected':
-                return 'bg-red-500/10 text-red-500 border-red-500/20';
+                return 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 border-rose-200 dark:border-rose-800/50';
             case 'accepted':
-                return 'bg-green-500/10 text-green-500 border-green-500/20';
+                return 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50';
             default:
-                return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+                return 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800/50';
         }
     };
 
     if (allAppliedJobs.length === 0) {
         return (
-            <div className='text-center py-12'>
-                <p className='text-slate-400'>You haven't applied to any jobs yet.</p>
+            <div className='flex flex-col items-center justify-center py-12 px-4 text-center bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700'>
+                <p className='text-slate-500 font-medium'>You haven't applied to any jobs yet.</p>
             </div>
         );
     }
 
     return (
-        <div className='p-4'>
+        <div className='overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800'>
             <Table>
-                <TableHeader>
-                    <TableRow className='border-white/10'>
-                        <TableHead className='text-slate-400'>Date</TableHead>
-                        <TableHead className='text-slate-400'>Company</TableHead>
-                        <TableHead className='text-slate-400'>Position</TableHead>
-                        <TableHead className='text-slate-400 text-right'>Status</TableHead>
+                <TableHeader className="bg-slate-50 dark:bg-slate-800/50">
+                    <TableRow className='border-slate-200 dark:border-slate-800 hover:bg-transparent'>
+                        <TableHead className='text-slate-600 dark:text-slate-400 font-bold'>Date Applied</TableHead>
+                        <TableHead className='text-slate-600 dark:text-slate-400 font-bold'>Company</TableHead>
+                        <TableHead className='text-slate-600 dark:text-slate-400 font-bold'>Position</TableHead>
+                        <TableHead className='text-slate-600 dark:text-slate-400 font-bold text-right'>Status</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {allAppliedJobs.map((application) => (
                         <TableRow 
                             key={application._id}
-                            className='border-white/10 hover:bg-white/5'
+                            className='border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors'
                         >
-                            <TableCell className='text-slate-300 flex items-center gap-2'>
-                                <Calendar className='h-4 w-4 text-blue-400' />
-                                {application?.createdAt?.split("T")[0]}
+                            <TableCell className='text-slate-600 dark:text-slate-300 font-medium'>
+                                <div className="flex items-center gap-2">
+                                    <Calendar className='h-4 w-4 text-brand-500' />
+                                    {application?.createdAt?.split("T")[0]}
+                                </div>
                             </TableCell>
                             <TableCell>
                                 <div className='flex items-center gap-3'>
-                                    <div className='w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 p-1.5 flex items-center justify-center'>
+                                    <div className='w-10 h-10 rounded-lg bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-1.5 flex items-center justify-center shadow-sm'>
                                         {application.job?.company?.logo ? (
                                             <img 
                                                 src={`${application.job?.company?.logo}?t=${new Date().getTime()}`} 
@@ -57,19 +59,21 @@ const AppliedJobTable = () => {
                                                 className='w-full h-full object-contain'
                                             />
                                         ) : (
-                                            <Building2 className='w-4 h-4 text-white' />
+                                            <Building2 className='w-5 h-5 text-brand-500' />
                                         )}
                                     </div>
-                                    <span className='text-slate-300'>{application.job?.company?.name}</span>
+                                    <span className='font-bold text-slate-900 dark:text-white line-clamp-1'>{application.job?.company?.name}</span>
                                 </div>
                             </TableCell>
-                            <TableCell className='text-slate-300'>{application.job?.title}</TableCell>
+                            <TableCell className='text-slate-600 dark:text-slate-300 font-medium line-clamp-1 py-4 block'>
+                                {application.job?.title}
+                            </TableCell>
                             <TableCell className='text-right'>
                                 <Badge 
                                     variant="outline" 
-                                    className={getStatusColor(application.status)}
+                                    className={`${getStatusColor(application.status)} font-bold px-3 py-1 uppercase tracking-wider text-[10px]`}
                                 >
-                                    {application.status.toUpperCase()}
+                                    {application.status}
                                 </Badge>
                             </TableCell>
                         </TableRow>

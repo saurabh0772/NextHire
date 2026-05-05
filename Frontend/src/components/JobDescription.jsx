@@ -8,17 +8,21 @@ import { setSingleJob } from '@/redux/jobSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import Navbar from './shared/Navbar';
-import { Briefcase, Building2, IndianRupee, MapPin, Users, Calendar } from 'lucide-react';
+import { Briefcase, Building2, IndianRupee, MapPin, Users, Calendar, Bot, ChevronLeft, DollarSign } from 'lucide-react';
+import InterviewChatbot from './shared/InterviewChatbot';
+import { useNavigate } from 'react-router-dom';
 
 const JobDescription = () => {
     const { singleJob } = useSelector(store => store.job);
     const { user } = useSelector(store => store.auth);
     const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
     const [isApplied, setIsApplied] = useState(isIntiallyApplied);
+    const [openChatbot, setOpenChatbot] = useState(false);
 
     const params = useParams();
     const jobId = params.id;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const applyJobHandler = async () => {
         try {
@@ -32,7 +36,7 @@ const JobDescription = () => {
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Failed to apply");
         }
     }
 
@@ -52,86 +56,162 @@ const JobDescription = () => {
     }, [jobId, dispatch, user?._id]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20">
             <Navbar />
-            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8'>
-                <div className='rounded-xl bg-white/5 backdrop-blur-lg border border-white/10 p-6'>
-                    <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
-                        <div>
-                            <h1 className='text-3xl font-bold text-white'>{singleJob?.title}</h1>
-                            <div className='flex items-center gap-2 mt-4 flex-wrap'>
-                                <Badge className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20">
-                                    {singleJob?.postion} Positions
-                                </Badge>
-                                <Badge className="bg-cyan-500/10 text-cyan-500 hover:bg-cyan-500/20">
-                                    {singleJob?.jobType}
-                                </Badge>
-                                <Badge className="bg-green-500/10 text-green-500 hover:bg-green-500/20">
-                                    {singleJob?.salary} LPA
-                                </Badge>
+            
+            {/* Header Banner */}
+            <div className='bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 pt-24 pb-8'>
+                <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'>
+                    <button onClick={() => navigate(-1)} className='flex items-center gap-2 text-slate-500 hover:text-brand-600 mb-6 font-medium text-sm transition-colors'>
+                        <ChevronLeft size={16} />
+                        Back to jobs
+                    </button>
+                    
+                    <div className='flex flex-col md:flex-row md:items-center justify-between gap-6'>
+                        <div className='flex items-center gap-6'>
+                            <div className='w-20 h-20 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center p-3 shadow-sm'>
+                                {singleJob?.company?.logo ? (
+                                    <img 
+                                        src={`${singleJob?.company?.logo}?t=${new Date().getTime()}`} 
+                                        alt={singleJob?.company?.name} 
+                                        className='w-full h-full object-contain'
+                                    />
+                                ) : (
+                                    <Building2 className='w-10 h-10 text-brand-500' />
+                                )}
                             </div>
-                        </div>
-                        <Button
-                            onClick={isApplied ? null : applyJobHandler}
-                            disabled={isApplied}
-                            className={`${isApplied 
-                                ? 'bg-slate-600 text-slate-300 cursor-not-allowed hover:bg-slate-600' 
-                                : 'bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white'
-                            }`}
-                        >
-                            {isApplied ? 'Already Applied' : 'Apply Now'}
-                        </Button>
-                    </div>
-
-                    <div className='mt-8 space-y-6'>
-                        <div className='border-b border-white/10 pb-4'>
-                            <h2 className='text-xl font-semibold text-white mb-4'>Job Details</h2>
-                            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                                <div className='flex items-center gap-2 text-slate-400'>
-                                    <Briefcase className='h-5 w-5' />
-                                    <span>Role:</span>
-                                    <span className='text-white'>{singleJob?.title}</span>
-                                </div>
-                                <div className='flex items-center gap-2 text-slate-400'>
-                                    <MapPin className='h-5 w-5' />
-                                    <span>Location:</span>
-                                    <span className='text-white'>{singleJob?.location}</span>
-                                </div>
-                                <div className='flex items-center gap-2 text-slate-400'>
-                                    <Building2 className='h-5 w-5' />
-                                    <span>Experience:</span>
-                                    <span className='text-white'>{singleJob?.experience} years</span>
-                                </div>
-                                <div className='flex items-center gap-2 text-slate-400'>
-                                    <IndianRupee className='h-5 w-5' />
-                                    <span>Salary:</span>
-                                    <span className='text-white'>{singleJob?.salary} LPA</span>
-                                </div>
-                                <div className='flex items-center gap-2 text-slate-400'>
-                                    <Users className='h-5 w-5' />
-                                    <span>Total Applicants:</span>
-                                    <span className='text-white'>{singleJob?.applications?.length || 0}</span>
-                                </div>
-                                <div className='flex items-center gap-2 text-slate-400'>
-                                    <Calendar className='h-5 w-5' />
-                                    <span>Posted Date:</span>
-                                    <span className='text-white'>{singleJob?.createdAt?.split("T")[0]}</span>
+                            <div>
+                                <h1 className='text-3xl font-extrabold text-slate-900 dark:text-white leading-tight'>{singleJob?.title}</h1>
+                                <p className='text-lg text-slate-600 dark:text-slate-300 font-medium mt-1'>{singleJob?.company?.name}</p>
+                                <div className='flex flex-wrap items-center gap-3 mt-3'>
+                                    <Badge variant="secondary" className="bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-400 border-none rounded-md px-3 py-1 font-semibold">
+                                        {singleJob?.position} Positions
+                                    </Badge>
+                                    <Badge variant="secondary" className="bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400 border-none rounded-md px-3 py-1 font-semibold">
+                                        {singleJob?.jobType}
+                                    </Badge>
+                                    <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-none rounded-md px-3 py-1 font-semibold flex items-center gap-1">
+                                        <DollarSign size={14} className="mr-0.5" />
+                                        {singleJob?.salary} LPA
+                                    </Badge>
                                 </div>
                             </div>
                         </div>
-
-                        <div>
-                            <h2 className='text-xl font-semibold text-white mb-4'>Job Description</h2>
-                            <p className='text-slate-400 whitespace-pre-wrap'>{singleJob?.description}</p>
-                        </div>
-
-                        <div>
-                            <h2 className='text-xl font-semibold text-white mb-4'>Requirements</h2>
-                            <p className='text-slate-400 whitespace-pre-wrap'>{singleJob?.requirements}</p>
+                        
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-4 md:mt-0">
+                            {user?.role === 'student' && (
+                                <Button
+                                    onClick={() => setOpenChatbot(true)}
+                                    variant="outline"
+                                    className="border-violet-200 bg-violet-50 text-violet-700 hover:bg-violet-100 hover:text-violet-800 dark:border-violet-800/30 dark:bg-violet-900/20 dark:text-violet-400 dark:hover:bg-violet-900/40 rounded-xl h-12 font-bold transition-all"
+                                >
+                                    <Bot className="mr-2 h-5 w-5" />
+                                    AI Interview Prep
+                                </Button>
+                            )}
+                            <Button
+                                onClick={isApplied ? null : applyJobHandler}
+                                disabled={isApplied}
+                                className={`rounded-xl h-12 px-8 font-bold text-base transition-all ${isApplied 
+                                    ? 'bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400 cursor-not-allowed' 
+                                    : 'bg-brand-600 hover:bg-brand-700 text-white shadow-md shadow-brand-500/20 hover:-translate-y-0.5'
+                                }`}
+                            >
+                                {isApplied ? 'Already Applied' : 'Apply Now'}
+                            </Button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Content Details */}
+            <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8'>
+                <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+                    
+                    {/* Left Column - Details */}
+                    <div className='lg:col-span-2 space-y-8'>
+                        <div className='bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm'>
+                            <h2 className='text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2'>
+                                <Briefcase className="text-brand-500" />
+                                Job Description
+                            </h2>
+                            <div className='prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 whitespace-pre-wrap leading-relaxed'>
+                                {singleJob?.description}
+                            </div>
+                        </div>
+
+                        <div className='bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm'>
+                            <h2 className='text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2'>
+                                <Users className="text-brand-500" />
+                                Requirements
+                            </h2>
+                            <div className='prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 whitespace-pre-wrap leading-relaxed'>
+                                {singleJob?.requirements}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Right Column - Meta Data */}
+                    <div className='space-y-6'>
+                        <div className='bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm'>
+                            <h3 className='font-bold text-slate-900 dark:text-white mb-6'>Job Overview</h3>
+                            <div className='space-y-6'>
+                                <div className='flex gap-4'>
+                                    <div className='bg-slate-50 dark:bg-slate-800 p-3 rounded-xl text-brand-600 dark:text-brand-400 shrink-0'>
+                                        <Calendar className='h-5 w-5' />
+                                    </div>
+                                    <div>
+                                        <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>Date Posted</p>
+                                        <p className='font-medium text-slate-900 dark:text-white'>{singleJob?.createdAt?.split("T")[0]}</p>
+                                    </div>
+                                </div>
+                                
+                                <div className='flex gap-4'>
+                                    <div className='bg-slate-50 dark:bg-slate-800 p-3 rounded-xl text-brand-600 dark:text-brand-400 shrink-0'>
+                                        <MapPin className='h-5 w-5' />
+                                    </div>
+                                    <div>
+                                        <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>Location</p>
+                                        <p className='font-medium text-slate-900 dark:text-white'>{singleJob?.location}</p>
+                                    </div>
+                                </div>
+
+                                <div className='flex gap-4'>
+                                    <div className='bg-slate-50 dark:bg-slate-800 p-3 rounded-xl text-brand-600 dark:text-brand-400 shrink-0'>
+                                        <Building2 className='h-5 w-5' />
+                                    </div>
+                                    <div>
+                                        <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>Experience Required</p>
+                                        <p className='font-medium text-slate-900 dark:text-white'>{singleJob?.experience} years</p>
+                                    </div>
+                                </div>
+
+                                <div className='flex gap-4'>
+                                    <div className='bg-slate-50 dark:bg-slate-800 p-3 rounded-xl text-brand-600 dark:text-brand-400 shrink-0'>
+                                        <IndianRupee className='h-5 w-5' />
+                                    </div>
+                                    <div>
+                                        <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>Salary Offered</p>
+                                        <p className='font-medium text-slate-900 dark:text-white'>{singleJob?.salary} LPA</p>
+                                    </div>
+                                </div>
+                                
+                                <div className='flex gap-4'>
+                                    <div className='bg-slate-50 dark:bg-slate-800 p-3 rounded-xl text-brand-600 dark:text-brand-400 shrink-0'>
+                                        <Users className='h-5 w-5' />
+                                    </div>
+                                    <div>
+                                        <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>Total Applicants</p>
+                                        <p className='font-medium text-slate-900 dark:text-white'>{singleJob?.applications?.length || 0}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <InterviewChatbot open={openChatbot} setOpen={setOpenChatbot} job={singleJob} />
         </div>
     )
 }

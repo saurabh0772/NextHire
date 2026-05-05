@@ -28,7 +28,7 @@ const CompanyCreate = () => {
                 dispatch(setSingleCompany(res.data.company));
                 toast.success(res.data.message);
                 const companyId = res?.data?.company?._id;
-                navigate(`/admin/companies/${companyId}`);
+                navigate(`/recruiter/companies/${companyId}`);
             }
         } catch (error) {
             console.log(error);
@@ -37,55 +37,53 @@ const CompanyCreate = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#0A0F1C] relative">
-            <div className="sticky top-0 z-50 bg-[#0A0F1C]/80 backdrop-blur-lg border-b border-slate-700">
-                <Navbar />
-            </div>
-            <div className='max-w-4xl mx-auto px-4 py-12 mt-8'>
-                <div className='bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 rounded-2xl p-8 shadow-xl border border-slate-700'>
-                    <div className='flex items-center gap-3 mb-6'>
-                        <div className='p-2 rounded-lg bg-violet-500/10'>
-                            <Building2 className="w-6 h-6 text-violet-500" />
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-12">
+            <Navbar />
+            <div className='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28'>
+                <div className='bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 md:p-12 shadow-sm'>
+                    <div className='flex items-center gap-4 mb-8'>
+                        <div className='p-3 rounded-2xl bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400'>
+                            <Building2 className="w-8 h-8" />
                         </div>
                         <div>
-                            <h1 className='font-bold text-2xl bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent'>
-                                Create Your Company Profile
+                            <h1 className='text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight'>
+                                Register New Company
                             </h1>
-                            <p className='text-slate-400'>
-                                Start your journey by setting up your company's presence
+                            <p className='text-slate-500 dark:text-slate-400 font-medium mt-1'>
+                                Start your hiring journey by setting up your company profile
                             </p>
                         </div>
                     </div>
 
-                    <div className='space-y-6'>
-                        <div>
-                            <Label className="text-slate-300">Company Name</Label>
+                    <div className='space-y-8'>
+                        <div className="space-y-3">
+                            <Label className="text-slate-700 dark:text-slate-300 font-bold text-base">Company Name</Label>
                             <Input
                                 type="text"
-                                className="mt-2 bg-slate-800/50 border-slate-700 text-slate-200 placeholder:text-slate-500"
-                                placeholder="e.g. Microsoft, Google, Tesla"
+                                className="h-14 text-lg px-5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-brand-500 focus:ring-brand-500 rounded-xl transition-all"
+                                placeholder="e.g. Acme Corporation, TechFlow"
                                 onChange={(e) => setCompanyName(e.target.value)}
                             />
-                            <p className='mt-2 text-sm text-slate-400'>
-                                This will be your company's public name. You can change this later.
+                            <p className='text-sm text-slate-500 font-medium'>
+                                This will be your company's public name on NextHire. You can update this later.
                             </p>
                         </div>
 
-                        <div className='flex items-center gap-3 pt-4'>
+                        <div className='flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800/50 mt-8'>
                             <Button 
                                 variant="outline" 
-                                onClick={() => navigate("/admin/companies")}
-                                className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                                onClick={() => navigate("/recruiter/companies")}
+                                className="h-12 px-6 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold rounded-xl"
                             >
                                 Cancel
                             </Button>
                             <Button 
                                 onClick={registerNewCompany}
-                                className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white"
+                                className="h-12 px-8 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md shadow-brand-500/20 hover:-translate-y-0.5 transition-all"
                                 disabled={!companyName}
                             >
-                                Continue
-                                <ArrowRight className="w-4 h-4 ml-2" />
+                                Continue to Setup
+                                <ArrowRight className="w-5 h-5 ml-2" />
                             </Button>
                         </div>
                     </div>

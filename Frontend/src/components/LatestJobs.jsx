@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux';
 import { ChevronLeft, ChevronRight, Briefcase, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-// const randomJobs = [1, 2, 3, 4, 5, 6, 7, 8];
-
 const LatestJobs = () => {
     const { allJobs } = useSelector(store => store.job);
     const [currentCategory, setCurrentCategory] = useState("Frontend Developer");
@@ -52,130 +50,120 @@ const LatestJobs = () => {
     };
 
     return (
-        <div className='relative overflow-hidden'>
-            {/* Background Elements */}
-            <div className='absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'>
-                <div className='absolute inset-0'>
-                    <div className='absolute top-0 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl'></div>
-                    <div className='absolute bottom-0 -left-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl'></div>
-                </div>
-            </div>
+        <div className='relative overflow-hidden bg-slate-50 dark:bg-slate-950 py-24'>
+            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className='text-center mb-16'
+                >
+                    <div className='inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 dark:bg-brand-900/30 border border-brand-100 dark:border-brand-800/50 mb-4'>
+                        <TrendingUp className='h-4 w-4 text-brand-600 dark:text-brand-400' />
+                        <span className='text-brand-700 dark:text-brand-300 text-sm font-medium'>Latest Opportunities</span>
+                    </div>
+                    <h1 className='text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white'>
+                        Top <span className='text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-violet-500'>Job Openings</span>
+                    </h1>
+                </motion.div>
 
-            <div className='relative py-20'>
-                <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+                {/* Category Navigation */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className='relative mb-12'
+                >
+                    <div className='flex items-center justify-center gap-3 overflow-x-auto py-4 scrollbar-hide pb-4'>
+                        {categories.map((category, index) => (
+                            <motion.button
+                                key={category.name}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.3 + index * 0.1 }}
+                                onClick={() => {
+                                    setCurrentCategory(category.name);
+                                    setPage(1);
+                                }}
+                                className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all whitespace-nowrap ${
+                                    currentCategory === category.name
+                                        ? 'bg-slate-900 dark:bg-brand-600 text-white shadow-md'
+                                        : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-sm'
+                                }`}
+                            >
+                                <span>{category.icon}</span>
+                                {category.name}
+                            </motion.button>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* Job Cards Grid */}
+                <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8'
+                >
+                    {displayedJobs.length <= 0 ? (
+                        <motion.div 
+                            variants={itemVariants}
+                            className='col-span-full flex flex-col items-center justify-center gap-4 p-12 rounded-3xl bg-white dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700'
+                        >
+                            <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-full">
+                                <Briefcase className='h-8 w-8 text-slate-400' />
+                            </div>
+                            <p className='text-slate-500 font-medium text-lg'>No jobs available in this category</p>
+                        </motion.div>
+                    ) : (
+                        displayedJobs.map((job) => (
+                            <motion.div key={job._id} variants={itemVariants}>
+                                <LatestJobCards job={job} />
+                            </motion.div>
+                        ))
+                    )}
+                </motion.div>
+
+                {/* Pagination */}
+                {filteredJobs.length > jobsPerPage && (
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className='text-center mb-12'
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        className='flex justify-center gap-2 mt-12'
                     >
-                        <div className='inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 mb-4'>
-                            <TrendingUp className='h-4 w-4 text-blue-400' />
-                            <span className='text-slate-300 text-sm'>Latest Opportunities</span>
-                        </div>
-                        <h1 className='text-4xl font-bold'>
-                            <span className='bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent'>
-                                Latest & Top
-                            </span>
-                            <span className='text-white'> Job Openings</span>
-                        </h1>
-                    </motion.div>
-
-                    {/* Category Navigation */}
-                    <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className='relative mb-12'
-                    >
-                        <div className='flex items-center justify-center gap-4 overflow-x-auto py-4 scrollbar-hide'>
-                            {categories.map((category, index) => (
-                                <motion.button
-                                    key={category.name}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.3 + index * 0.1 }}
-                                    onClick={() => setCurrentCategory(category.name)}
-                                    className={`flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all ${
-                                        currentCategory === category.name
-                                            ? 'bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-lg shadow-blue-500/30 scale-105'
-                                            : 'bg-white/5 text-slate-300 hover:bg-white/10 hover:scale-105'
-                                    }`}
+                        <button 
+                            onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                            disabled={page === 1}
+                            className={`p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 
+                                ${page === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-brand-600 transition-all shadow-sm'}`}
+                        >
+                            <ChevronLeft size={20} />
+                        </button>
+                        <div className='flex items-center gap-2'>
+                            {Array.from({ length: totalPages }, (_, i) => (
+                                <button
+                                    key={i + 1}
+                                    onClick={() => setPage(i + 1)}
+                                    className={`w-11 h-11 rounded-xl text-sm font-bold transition-all duration-300
+                                        ${page === i + 1 
+                                            ? 'bg-brand-600 text-white shadow-md shadow-brand-500/20' 
+                                            : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-brand-300 dark:hover:border-brand-700 hover:text-brand-600'}`}
                                 >
-                                    <span>{category.icon}</span>
-                                    {category.name}
-                                </motion.button>
+                                    {i + 1}
+                                </button>
                             ))}
                         </div>
-                    </motion.div>
-
-                    {/* Job Cards Grid */}
-                    <motion.div 
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
-                    >
-                        {displayedJobs.length <= 0 ? (
-                            <motion.div 
-                                variants={itemVariants}
-                                className='col-span-full flex flex-col items-center justify-center gap-4 p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10'
-                            >
-                                <Briefcase className='h-12 w-12 text-slate-400' />
-                                <p className='text-slate-300 text-lg'>No jobs available in this category</p>
-                            </motion.div>
-                        ) : (
-                            displayedJobs.map((job) => (
-                                <motion.div key={job._id} variants={itemVariants}>
-                                    <LatestJobCards job={job} />
-                                </motion.div>
-                            ))
-                        )}
-                    </motion.div>
-
-                    {/* Pagination */}
-                    {filteredJobs.length > jobsPerPage && (
-                        <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
-                            className='flex justify-center gap-4 mt-12'
+                        <button 
+                            onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
+                            disabled={page === totalPages}
+                            className={`p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 
+                                ${page === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-brand-600 transition-all shadow-sm'}`}
                         >
-                            <button 
-                                onClick={() => setPage(prev => Math.max(prev - 1, 1))}
-                                disabled={page === 1}
-                                className={`p-3 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 text-slate-300 
-                                    ${page === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white/10 hover:scale-105'} 
-                                    transition-all duration-300`}
-                            >
-                                <ChevronLeft size={20} />
-                            </button>
-                            <div className='flex items-center gap-2 text-slate-300'>
-                                {Array.from({ length: totalPages }, (_, i) => (
-                                    <button
-                                        key={i + 1}
-                                        onClick={() => setPage(i + 1)}
-                                        className={`w-10 h-10 rounded-xl text-sm font-medium transition-all duration-300
-                                            ${page === i + 1 
-                                                ? 'bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-lg shadow-blue-500/30' 
-                                                : 'bg-white/5 hover:bg-white/10'}`}
-                                    >
-                                        {i + 1}
-                                    </button>
-                                ))}
-                            </div>
-                            <button 
-                                onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
-                                disabled={page === totalPages}
-                                className={`p-3 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 text-slate-300 
-                                    ${page === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white/10 hover:scale-105'} 
-                                    transition-all duration-300`}
-                            >
-                                <ChevronRight size={20} />
-                            </button>
-                        </motion.div>
-                    )}
-                </div>
+                            <ChevronRight size={20} />
+                        </button>
+                    </motion.div>
+                )}
             </div>
         </div>
     )

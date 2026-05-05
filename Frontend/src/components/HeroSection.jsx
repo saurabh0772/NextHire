@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from './ui/button'
-import { Search, MapPin, Briefcase, TrendingUp, Star, Users, ChevronRight, Sparkles } from 'lucide-react'
+import { Search, MapPin, Briefcase, Star, Users, ChevronRight, Sparkles } from 'lucide-react'
 import { useDispatch } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
 import { useNavigate } from 'react-router-dom';
@@ -25,99 +25,78 @@ const HeroSection = () => {
     ];
 
     const popularSearches = [
-        { tag: 'UI/UX Designer', color: 'from-blue-500 to-cyan-400', delay: 0 },
-        { tag: 'Programming', color: 'from-indigo-500 to-blue-400', delay: 0.1 },
-        { tag: 'Digital Marketing', color: 'from-violet-500 to-indigo-400', delay: 0.2 },
-        { tag: 'Video Animation', color: 'from-fuchsia-500 to-violet-400', delay: 0.3 },
+        { tag: 'UI/UX Designer', delay: 0 },
+        { tag: 'Programming', delay: 0.1 },
+        { tag: 'Digital Marketing', delay: 0.2 },
+        { tag: 'Video Animation', delay: 0.3 },
     ];
 
     const features = [
-        { text: "AI-Powered Job Matching", color: "text-blue-400" },
-        { text: "Verified Companies", color: "text-cyan-400" },
-        { text: "Instant Applications", color: "text-teal-400" },
+        { text: "AI-Powered Job Matching" },
+        { text: "Verified Companies" },
+        { text: "Instant Applications" },
     ];
 
     return (
-        <div className='min-h-[90vh] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden'>
+        <div className='relative overflow-hidden bg-slate-50 dark:bg-slate-950 pt-24 pb-20 lg:pt-32 lg:pb-28'>
             {/* Animated background elements */}
-            <div className='absolute inset-0 overflow-hidden'>
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 0.2, scale: 1 }}
-                    transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                    className='absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-500 to-cyan-300 rounded-full blur-3xl'
-                />
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 0.2, scale: 1 }}
-                    transition={{ duration: 2, delay: 0.3, repeat: Infinity, repeatType: "reverse" }}
-                    className='absolute top-40 -left-40 w-80 h-80 bg-gradient-to-br from-violet-500 to-fuchsia-300 rounded-full blur-3xl'
-                />
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 0.2, scale: 1 }}
-                    transition={{ duration: 2, delay: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                    className='absolute -bottom-40 left-1/2 w-80 h-80 bg-gradient-to-br from-fuchsia-500 to-pink-300 rounded-full blur-3xl'
-                />
+            <div className='absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-30 dark:opacity-20 pointer-events-none'>
+                <div className='absolute inset-0 bg-gradient-to-r from-brand-300 to-violet-300 dark:from-brand-600 dark:to-violet-600 rounded-full blur-3xl animate-pulse' style={{ animationDuration: '8s' }} />
             </div>
 
-            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10'>
+            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
                 <div className='flex flex-col lg:flex-row justify-between items-center gap-16'>
                     {/* Left Content */}
                     <motion.div 
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         className='flex-1 max-w-2xl'
                     >
                         <div className='space-y-8'>
                             <motion.div 
-                                initial={{ y: -20, opacity: 0 }}
+                                initial={{ y: -10, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ delay: 0.2 }}
-                                className='inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-medium shadow-lg shadow-blue-500/30'
+                                className='inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-brand-600 dark:text-brand-400 font-medium text-sm'
                             >
                                 <Sparkles className='h-4 w-4' />
-                                <span>Trusted by 500+ Companies</span>
+                                <span>Trusted by 500+ Top Tech Companies</span>
                             </motion.div>
                             
-                            <div className='space-y-4'>
+                            <div className='space-y-6'>
                                 <motion.h1 
-                                    initial={{ y: -20, opacity: 0 }}
+                                    initial={{ y: -10, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.3 }}
-                                    className='text-5xl md:text-6xl lg:text-7xl font-bold leading-tight'
+                                    className='text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]'
                                 >
-                                    <span className='block bg-gradient-to-r from-blue-400 via-cyan-300 to-teal-200 bg-clip-text text-transparent animate-gradient'>
-                                        Find Your Dream
-                                    </span>
-                                    <span className='block text-white'>
-                                        Job Today
-                                    </span>
+                                    Find Your <span className='text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-violet-500 animate-gradient'>Dream Job</span><br />
+                                    <span className="text-4xl md:text-5xl lg:text-6xl">Faster & Smarter</span>
                                 </motion.h1>
                                 
                                 <motion.p 
-                                    initial={{ y: -20, opacity: 0 }}
+                                    initial={{ y: -10, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.4 }}
-                                    className='text-xl text-slate-300'
+                                    className='text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl'
                                 >
-                                    Your gateway to endless career opportunities. Connect with top companies and take the next step in your professional journey.
+                                    Your gateway to endless career opportunities. Connect with industry-leading companies and take the next step in your professional journey.
                                 </motion.p>
 
                                 {/* Features List */}
                                 <motion.div 
-                                    initial={{ y: -20, opacity: 0 }}
+                                    initial={{ y: -10, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.5 }}
-                                    className="flex flex-wrap gap-4 mt-6"
+                                    className="flex flex-wrap gap-4 pt-2"
                                 >
                                     {features.map((feature, index) => (
-                                        <div key={index} className="flex items-center gap-2">
-                                            <div className={`p-1 rounded-full ${feature.color} bg-opacity-10`}>
-                                                <ChevronRight className={`h-4 w-4 ${feature.color}`} />
+                                        <div key={index} className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                            <div className='p-1 rounded-full bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400'>
+                                                <ChevronRight className='h-3 w-3' strokeWidth={3} />
                                             </div>
-                                            <span className="text-slate-300">{feature.text}</span>
+                                            {feature.text}
                                         </div>
                                     ))}
                                 </motion.div>
@@ -127,52 +106,52 @@ const HeroSection = () => {
                                 initial={{ y: 20, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ delay: 0.6 }}
-                                className='flex flex-col md:flex-row gap-3 p-3 bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10'
+                                className='flex flex-col md:flex-row gap-3 p-3 bg-white dark:bg-slate-900 rounded-2xl shadow-xl shadow-brand-500/5 border border-slate-200 dark:border-slate-800'
                             >
-                                <div className='flex-1 flex items-center gap-3 px-4 py-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/10'>
-                                    <Search className='h-5 w-5 text-blue-400' />
+                                <div className='flex-1 flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-transparent focus-within:border-brand-500/50 focus-within:bg-white dark:focus-within:bg-slate-800 transition-all'>
+                                    <Search className='h-5 w-5 text-brand-500' />
                                     <input
                                         type="text"
-                                        placeholder='Job title, Keyword...'
+                                        placeholder='Job title, keyword...'
                                         onChange={(e) => setQuery(e.target.value)}
-                                        className='w-full bg-transparent outline-none text-white placeholder:text-slate-400'
+                                        className='w-full bg-transparent outline-none text-slate-900 dark:text-white placeholder:text-slate-500 text-sm font-medium'
                                     />
                                 </div>
                                 
-                                <div className='flex items-center gap-3 px-4 py-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/10'>
-                                    <MapPin className='h-5 w-5 text-blue-400' />
+                                <div className='flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-transparent focus-within:border-brand-500/50 focus-within:bg-white dark:focus-within:bg-slate-800 transition-all'>
+                                    <MapPin className='h-5 w-5 text-brand-500' />
                                     <input
                                         type="text"
                                         placeholder='Location'
                                         onChange={(e) => setLocation(e.target.value)}
-                                        className='w-full bg-transparent outline-none text-white placeholder:text-slate-400'
+                                        className='w-full bg-transparent outline-none text-slate-900 dark:text-white placeholder:text-slate-500 text-sm font-medium'
                                     />
                                 </div>
                                 
                                 <Button 
                                     onClick={searchJobHandler} 
-                                    className="bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white px-8 py-4 rounded-xl transition-all hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5"
+                                    className="bg-brand-600 hover:bg-brand-700 text-white px-8 py-6 rounded-xl transition-all shadow-md shadow-brand-500/20 hover:-translate-y-0.5 font-bold text-base"
                                 >
-                                    Find Job
+                                    Find Jobs
                                 </Button>
                             </motion.div>
 
-                            <div className='space-y-6'>
+                            <div className='space-y-8 pt-4'>
                                 <motion.div 
                                     initial={{ y: 20, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.7 }}
                                     className='flex flex-wrap gap-3 items-center'
                                 >
-                                    <span className='text-slate-300 font-medium'>Popular:</span>
+                                    <span className='text-slate-500 font-medium text-sm'>Popular Searches:</span>
                                     <div className='flex flex-wrap gap-2'>
-                                        {popularSearches.map(({ tag, color, delay }) => (
+                                        {popularSearches.map(({ tag, delay }) => (
                                             <motion.span 
                                                 key={tag}
                                                 initial={{ opacity: 0, scale: 0.8 }}
                                                 animate={{ opacity: 1, scale: 1 }}
                                                 transition={{ delay: 0.8 + delay }}
-                                                className={'px-4 py-2 rounded-full bg-gradient-to-r ' + color + ' text-white text-sm font-medium cursor-pointer transform hover:scale-105 transition-all hover:shadow-lg'}
+                                                className='px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold cursor-pointer hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-all shadow-sm'
                                             >
                                                 {tag}
                                             </motion.span>
@@ -184,30 +163,24 @@ const HeroSection = () => {
                                     initial={{ y: 20, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.8 }}
-                                    className='grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8'
+                                    className='grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6'
                                 >
                                     {stats.map((stat, index) => (
                                         <motion.div 
                                             key={stat.label}
-                                            initial={{ opacity: 0, scale: 0.8 }}
-                                            animate={{ opacity: 1, scale: 1 }}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.9 + index * 0.1 }}
-                                            className='relative group p-8 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl border border-white/10 hover:border-blue-500/20 transition-all duration-300'
+                                            className='flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow'
                                         >
-                                            {/* Glowing background effect */}
-                                            <div className='absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity blur-xl'></div>
-                                            
-                                            {/* Content */}
-                                            <div className='relative z-10'>
-                                                <div className='flex justify-center mb-3'>
-                                                    <div className='p-3 rounded-xl bg-blue-500/10 text-blue-400'>
-                                                        {stat.icon}
-                                                    </div>
-                                                </div>
-                                                <div className='text-4xl font-bold bg-gradient-to-r from-blue-400 via-cyan-300 to-teal-200 bg-clip-text text-transparent'>
+                                            <div className='p-3 rounded-xl bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400'>
+                                                {stat.icon}
+                                            </div>
+                                            <div>
+                                                <div className='text-2xl font-extrabold text-slate-900 dark:text-white'>
                                                     {stat.count}
                                                 </div>
-                                                <div className='text-base text-slate-400 mt-1'>
+                                                <div className='text-xs font-semibold text-slate-500 uppercase tracking-wider'>
                                                     {stat.label}
                                                 </div>
                                             </div>
@@ -220,18 +193,16 @@ const HeroSection = () => {
 
                     {/* Right Illustration */}
                     <motion.div 
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className='flex-1 relative'
+                        className='flex-1 relative hidden lg:block'
                     >
-                        <div className='absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-300/20 rounded-full filter blur-3xl opacity-30 animate-pulse'></div>
+                        <div className='absolute inset-0 bg-gradient-to-tr from-brand-100 to-violet-100 dark:from-brand-900/30 dark:to-violet-900/30 rounded-full filter blur-3xl opacity-50 animate-pulse'></div>
                         <motion.img 
                             src={heroIllustration} 
                             alt="Job search illustration" 
-                            className='relative w-full max-w-lg mx-auto drop-shadow-2xl'
-                            animate={{ y: [-20, 0, -20] }}
-                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            className='relative w-full max-w-lg mx-auto drop-shadow-2xl animate-float'
                         />
                     </motion.div>
                 </div>
@@ -239,19 +210,5 @@ const HeroSection = () => {
         </div>
     )
 }
-
-// Add these animations to your global CSS
-const styles = `
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.animate-gradient {
-    animation: gradient 6s ease infinite;
-    background-size: 200% auto;
-}
-`;
 
 export default HeroSection
