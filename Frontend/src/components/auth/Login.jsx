@@ -10,13 +10,13 @@ import { USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading, setUser } from '@/redux/authSlice'
-import { Loader2, Mail, Lock, User, Building2 } from 'lucide-react'
+import { Loader2, Mail, Lock, User, Building2, Quote } from 'lucide-react'
 
 const Login = () => {
     const [input, setInput] = useState({
         email: "",
         password: "",
-        role: "student", // Default role
+        role: "student",
     });
     const { loading, user } = useSelector(store => store.auth);
     const navigate = useNavigate();
@@ -43,7 +43,7 @@ const Login = () => {
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Login failed");
         } finally {
             dispatch(setLoading(false));
         }
@@ -53,104 +53,123 @@ const Login = () => {
         if (user) {
             navigate("/");
         }
-    }, [])
+    }, [user, navigate])
 
     return (
-        <div className='min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'>
+        <div className='min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950'>
             <Navbar />
-            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8'>
-                <div className='max-w-md mx-auto'>
-                    {/* Header */}
-                    <div className='text-center mb-8'>
-                        <h1 className='text-3xl font-bold'>
-                            <span className='bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent'>
+            
+            <div className='flex-1 flex pt-16'>
+                {/* Left Side: Form */}
+                <div className='flex-1 flex items-center justify-center p-8 lg:p-24 w-full lg:w-1/2'>
+                    <div className='w-full max-w-md'>
+                        <div className='mb-10 text-center lg:text-left'>
+                            <h1 className='text-3xl font-extrabold text-slate-900 dark:text-white mb-2'>
                                 Welcome Back
-                            </span>
-                        </h1>
-                        <p className='text-slate-400 mt-2'>Sign in to your account to continue</p>
-                    </div>
+                            </h1>
+                            <p className='text-slate-500 font-medium'>Please enter your details to sign in.</p>
+                        </div>
 
-                    {/* Login Form */}
-                    <div className='p-8 rounded-xl bg-white/5 backdrop-blur-lg border border-white/10'>
                         <form onSubmit={submitHandler} className='space-y-6'>
                             <div className='space-y-2'>
-                                <Label className="text-slate-400">Email</Label>
+                                <Label className="text-slate-700 dark:text-slate-300 font-semibold">Email address</Label>
                                 <div className='relative'>
-                                    <Mail className='absolute left-3 top-2.5 h-4 w-4 text-slate-400' />
+                                    <Mail className='absolute left-3 top-3 h-5 w-5 text-slate-400' />
                                     <Input
                                         type="email"
                                         value={input.email}
                                         name="email"
                                         onChange={changeEventHandler}
                                         placeholder="Enter your email"
-                                        className='pl-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500'
+                                        className='pl-10 h-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-brand-500 focus:ring-brand-500 rounded-xl transition-all'
                                     />
                                 </div>
                             </div>
 
                             <div className='space-y-2'>
-                                <Label className="text-slate-400">Password</Label>
+                                <Label className="text-slate-700 dark:text-slate-300 font-semibold">Password</Label>
                                 <div className='relative'>
-                                    <Lock className='absolute left-3 top-2.5 h-4 w-4 text-slate-400' />
+                                    <Lock className='absolute left-3 top-3 h-5 w-5 text-slate-400' />
                                     <Input
                                         type="password"
                                         value={input.password}
                                         name="password"
                                         onChange={changeEventHandler}
                                         placeholder="Enter your password"
-                                        className='pl-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500'
+                                        className='pl-10 h-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-brand-500 focus:ring-brand-500 rounded-xl transition-all'
                                     />
                                 </div>
                             </div>
 
-                            <div className='space-y-2'>
-                                <Label className="text-slate-400">Account Type</Label>
-                                <RadioGroup 
-                                    name="role"
-                                    className="grid grid-cols-2 gap-4"
-                                    value={input.role}
-                                    onValueChange={(value) => setInput(prev => ({ ...prev, role: value }))}
-                                >
-                                    <div className={`relative flex items-center justify-center p-4 rounded-lg border ${input.role === 'student' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 bg-white/5'} cursor-pointer transition-all group`}>
-                                        <RadioGroupItem value="student" id="student" className="absolute right-2 top-2 border-white/20" />
+                            <div className='space-y-3 pt-2'>
+                                <Label className="text-slate-700 dark:text-slate-300 font-semibold">I am a...</Label>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div 
+                                        onClick={() => setInput(prev => ({ ...prev, role: 'student' }))}
+                                        className={`relative flex items-center justify-center p-4 rounded-xl border-2 transition-all cursor-pointer ${input.role === 'student' ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700'}`}>
                                         <div className='text-center'>
-                                            <User className={`h-6 w-6 mx-auto mb-2 ${input.role === 'student' ? 'text-blue-400' : 'text-slate-400'}`} />
-                                            <span className={input.role === 'student' ? 'text-blue-400' : 'text-slate-400'}>Student</span>
+                                            <User className={`h-6 w-6 mx-auto mb-2 ${input.role === 'student' ? 'text-brand-600 dark:text-brand-400' : 'text-slate-400'}`} />
+                                            <span className={`font-semibold ${input.role === 'student' ? 'text-brand-700 dark:text-brand-300' : 'text-slate-500'}`}>Candidate</span>
                                         </div>
                                     </div>
 
-                                    <div className={`relative flex items-center justify-center p-4 rounded-lg border ${input.role === 'recruiter' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 bg-white/5'} cursor-pointer transition-all group`}>
-                                        <RadioGroupItem value="recruiter" id="recruiter" className="absolute right-2 top-2 border-white/20" />
+                                    <div 
+                                        onClick={() => setInput(prev => ({ ...prev, role: 'recruiter' }))}
+                                        className={`relative flex items-center justify-center p-4 rounded-xl border-2 transition-all cursor-pointer ${input.role === 'recruiter' ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700'}`}>
                                         <div className='text-center'>
-                                            <Building2 className={`h-6 w-6 mx-auto mb-2 ${input.role === 'recruiter' ? 'text-blue-400' : 'text-slate-400'}`} />
-                                            <span className={input.role === 'recruiter' ? 'text-blue-400' : 'text-slate-400'}>Recruiter</span>
+                                            <Building2 className={`h-6 w-6 mx-auto mb-2 ${input.role === 'recruiter' ? 'text-brand-600 dark:text-brand-400' : 'text-slate-400'}`} />
+                                            <span className={`font-semibold ${input.role === 'recruiter' ? 'text-brand-700 dark:text-brand-300' : 'text-slate-500'}`}>Recruiter</span>
                                         </div>
                                     </div>
-                                </RadioGroup>
+                                </div>
                             </div>
 
                             <Button
                                 type="submit"
                                 disabled={loading || !input.email || !input.password}
-                                className="w-full bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white"
+                                className="w-full h-12 text-base font-bold bg-brand-600 hover:bg-brand-700 text-white rounded-xl transition-all shadow-md shadow-brand-500/20 hover:-translate-y-0.5 mt-4"
                             >
                                 {loading ? (
                                     <>
-                                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                                        Signing in...
+                                        <Loader2 className='mr-2 h-5 w-5 animate-spin' />
+                                        Authenticating...
                                     </>
                                 ) : (
-                                    'Sign in'
+                                    'Sign In'
                                 )}
                             </Button>
 
-                            <p className='text-center text-slate-400'>
+                            <p className='text-center text-sm font-medium text-slate-500 pt-4'>
                                 Don't have an account?{' '}
-                                <Link to="/signup" className='text-blue-400 hover:text-blue-300 transition-colors'>
-                                    Sign up
+                                <Link to="/signup" className='text-brand-600 dark:text-brand-400 hover:underline'>
+                                    Create one now
                                 </Link>
                             </p>
                         </form>
+                    </div>
+                </div>
+
+                {/* Right Side: Image/Gradient Panel */}
+                <div className='hidden lg:flex flex-1 relative bg-slate-900 overflow-hidden items-center justify-center'>
+                    {/* Abstract Shapes */}
+                    <div className='absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-brand-600/40 to-violet-600/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-70'></div>
+                    <div className='absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-cyan-600/30 to-brand-600/30 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 opacity-70'></div>
+                    
+                    {/* Glass Overlay Card */}
+                    <div className='relative z-10 w-full max-w-lg p-12 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl mx-12'>
+                        <Quote className='h-12 w-12 text-brand-300 mb-6 opacity-80' />
+                        <h2 className='text-3xl font-bold text-white leading-tight mb-6'>
+                            "NextHire completely transformed how we discover top tier talent. The platform is intuitive, fast, and incredibly effective."
+                        </h2>
+                        <div className='flex items-center gap-4'>
+                            <div className='h-12 w-12 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold text-lg'>
+                                SJ
+                            </div>
+                            <div>
+                                <p className='text-white font-bold'>Sarah Jenkins</p>
+                                <p className='text-brand-200 text-sm'>HR Director at TechFlow</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

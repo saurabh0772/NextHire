@@ -17,41 +17,43 @@ const Companies = () => {
 
     useEffect(() => {
         dispatch(setSearchCompanyByText(input));
-    }, [input]);
+    }, [input, dispatch]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-12">
             <Navbar />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28">
                 {/* Header */}
-                <div className="text-center mb-10">
-                    <h1 className="text-4xl font-bold mb-4">
-                        <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-                            Manage Companies
-                        </span>
+                <div className="mb-10">
+                    <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3">
+                        <div className="bg-brand-100 text-brand-600 dark:bg-brand-900/30 dark:text-brand-400 p-2 rounded-xl">
+                            <Building2 className="h-6 w-6" />
+                        </div>
+                        Manage Companies
                     </h1>
-                    <p className="text-slate-400">Create and manage your company profiles</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium mt-2">Create and manage your company profiles</p>
                 </div>
 
-                <div className='max-w-6xl mx-auto'>
+                <div className='bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm'>
                     <div className='flex flex-col sm:flex-row items-center justify-between gap-4 mb-8'>
                         <div className='relative w-full sm:w-96'>
-                            <Search className='absolute left-3 top-2.5 h-4 w-4 text-slate-400' />
-                            <Input
+                            <Search className='absolute left-3 top-3 h-5 w-5 text-slate-400' />
+                            <input
                                 placeholder="Search companies..."
+                                value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500 w-full"
+                                className="w-full pl-10 pr-4 h-11 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all font-medium"
                             />
                         </div>
                         <Button
                             onClick={() => navigate("/recruiter/companies/create")}
-                            className="bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white w-full sm:w-auto"
+                            className="w-full sm:w-auto h-11 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md shadow-brand-500/20 hover:-translate-y-0.5 transition-all"
                         >
-                            <Plus className="h-4 w-4 mr-2" />
+                            <Plus className="h-5 w-5 mr-1.5" />
                             Add New Company
                         </Button>
                     </div>
-                    <div className='rounded-xl bg-white/5 backdrop-blur-lg border border-white/10 overflow-hidden'>
+                    <div className='overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800'>
                         <CompaniesTable />
                     </div>
                 </div>

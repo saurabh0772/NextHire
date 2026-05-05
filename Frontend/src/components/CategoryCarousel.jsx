@@ -8,28 +8,33 @@ import { ChevronLeft, ChevronRight, Code, Database, Brain, Palette, Layout } fro
 const categories = [
     {
         name: "Frontend Developer",
-        gradient: "from-blue-500 to-cyan-400",
-        icon: <Layout className="w-5 h-5" />
+        colorClass: "text-blue-500",
+        bgClass: "bg-blue-50 dark:bg-blue-900/20",
+        icon: <Layout className="w-6 h-6" />
     },
     {
         name: "Backend Developer",
-        gradient: "from-indigo-500 to-blue-400",
-        icon: <Database className="w-5 h-5" />
+        colorClass: "text-indigo-500",
+        bgClass: "bg-indigo-50 dark:bg-indigo-900/20",
+        icon: <Database className="w-6 h-6" />
     },
     {
         name: "Data Science",
-        gradient: "from-violet-500 to-indigo-400",
-        icon: <Brain className="w-5 h-5" />
+        colorClass: "text-violet-500",
+        bgClass: "bg-violet-50 dark:bg-violet-900/20",
+        icon: <Brain className="w-6 h-6" />
     },
     {
         name: "Graphic Designer",
-        gradient: "from-fuchsia-500 to-violet-400",
-        icon: <Palette className="w-5 h-5" />
+        colorClass: "text-fuchsia-500",
+        bgClass: "bg-fuchsia-50 dark:bg-fuchsia-900/20",
+        icon: <Palette className="w-6 h-6" />
     },
     {
         name: "FullStack Developer",
-        gradient: "from-blue-500 to-cyan-400",
-        icon: <Code className="w-5 h-5" />
+        colorClass: "text-brand-500",
+        bgClass: "bg-brand-50 dark:bg-brand-900/20",
+        icon: <Code className="w-6 h-6" />
     }
 ];
 
@@ -51,19 +56,17 @@ const CategoryCarousel = () => {
     }
 
     return (
-        <div className='bg-gradient-to-b from-slate-900 to-slate-900/50 py-16'>
-            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-                <div className='text-center mb-10'>
-                    <h2 className='text-2xl font-bold'>
-                        <span className='bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent'>
-                            Browse by Category
-                        </span>
+        <div className='bg-white dark:bg-slate-950 py-16 relative border-y border-slate-100 dark:border-slate-900'>
+            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
+                <div className='text-center mb-12'>
+                    <h2 className='text-3xl font-extrabold text-slate-900 dark:text-white'>
+                        Browse by <span className='text-brand-600 dark:text-brand-400'>Category</span>
                     </h2>
-                    <p className='text-slate-400 mt-2'>Explore opportunities in your preferred domain</p>
+                    <p className='text-slate-500 dark:text-slate-400 mt-3 font-medium'>Explore opportunities in your preferred domain</p>
                 </div>
 
                 <Carousel 
-                    className="w-full max-w-5xl mx-auto relative group"
+                    className="w-full max-w-6xl mx-auto relative group"
                     opts={{
                         align: "start",
                     }}
@@ -76,38 +79,27 @@ const CategoryCarousel = () => {
                                     onClick={() => searchJobHandler(cat.name)}
                                     className={`relative w-full p-6 rounded-2xl transition-all duration-300
                                         ${activeIndex === index 
-                                            ? 'bg-gradient-to-br ' + cat.gradient + ' scale-105'
-                                            : 'bg-slate-800/50 hover:bg-slate-800'
+                                            ? 'bg-white dark:bg-slate-900 border-brand-500 shadow-md shadow-brand-500/10 scale-100'
+                                            : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-brand-300 hover:shadow-sm'
                                         }
-                                        group/item backdrop-blur-xl border border-white/5 hover:border-white/10
-                                        transform hover:-translate-y-1`}
+                                        group/item border transform hover:-translate-y-1 text-left`}
                                 >
-                                    {/* Glowing effect */}
-                                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${cat.gradient} opacity-0 
-                                        group-hover/item:opacity-10 blur-xl transition-opacity`}></div>
-                                    
                                     {/* Content */}
-                                    <div className='relative z-10 text-center space-y-3'>
-                                        <div className={`w-12 h-12 mx-auto rounded-xl flex items-center justify-center
-                                            ${activeIndex === index 
-                                                ? 'bg-white/20' 
-                                                : 'bg-gradient-to-br ' + cat.gradient
-                                            }`}
+                                    <div className='relative z-10 flex flex-col gap-4'>
+                                        <div className={`w-14 h-14 rounded-xl flex items-center justify-center transition-colors
+                                            ${activeIndex === index ? 'bg-brand-600 text-white' : cat.bgClass + ' ' + cat.colorClass}
+                                            group-hover/item:bg-brand-600 group-hover/item:text-white`}
                                         >
-                                            <div className={activeIndex === index ? 'text-white' : 'text-white'}>
-                                                {cat.icon}
-                                            </div>
+                                            {cat.icon}
                                         </div>
                                         <div>
-                                            <h3 className={`font-medium ${
-                                                activeIndex === index ? 'text-white' : 'text-slate-300'
+                                            <h3 className={`font-bold text-lg leading-tight transition-colors ${
+                                                activeIndex === index ? 'text-brand-700 dark:text-brand-400' : 'text-slate-900 dark:text-white group-hover/item:text-brand-600 dark:group-hover/item:text-brand-400'
                                             }`}>
                                                 {cat.name}
                                             </h3>
-                                            <p className={`text-sm mt-1 ${
-                                                activeIndex === index ? 'text-white/80' : 'text-slate-400'
-                                            }`}>
-                                                {getJobCountForCategory(cat.name)} Jobs
+                                            <p className='text-sm mt-1 font-medium text-slate-500 dark:text-slate-400'>
+                                                {getJobCountForCategory(cat.name)} Open Positions
                                             </p>
                                         </div>
                                     </div>
@@ -118,12 +110,12 @@ const CategoryCarousel = () => {
                     
                     <div className='hidden md:block'>
                         <CarouselPrevious 
-                            className="absolute -left-12 opacity-0 group-hover:opacity-100 bg-slate-800 border-white/10 
-                                text-white hover:bg-slate-700 hover:border-white/20 transition-all"
+                            className="absolute -left-16 opacity-0 group-hover:opacity-100 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 
+                                text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-600 transition-all h-12 w-12 shadow-sm"
                         />
                         <CarouselNext 
-                            className="absolute -right-12 opacity-0 group-hover:opacity-100 bg-slate-800 border-white/10 
-                                text-white hover:bg-slate-700 hover:border-white/20 transition-all"
+                            className="absolute -right-16 opacity-0 group-hover:opacity-100 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 
+                                text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-600 transition-all h-12 w-12 shadow-sm"
                         />
                     </div>
                 </Carousel>

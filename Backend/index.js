@@ -9,6 +9,8 @@ import userRoute from './routes/user.route.js';
 import companyRoute from './routes/company.route.js';
 import jobRoute from './routes/job.route.js';
 import applicationRoute from './routes/application.route.js';
+import resumeRoute from './routes/resumeRoute.js';
+import interviewRoute from './routes/interviewRoute.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
@@ -46,6 +48,8 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
+app.use("/api/v1/resume", resumeRoute);
+app.use("/api/v1/interview", interviewRoute);
 
 app.listen(PORT, () => {
     connectDB();

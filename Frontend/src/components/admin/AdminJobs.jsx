@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import AdminJobsTable from './AdminJobsTable'
 import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
 import { setSearchJobByText } from '@/redux/jobSlice'
-import { Plus } from 'lucide-react'
+import { Plus, Search, Briefcase } from 'lucide-react'
 
 const AdminJobs = () => {
   useGetAllAdminJobs();
@@ -17,32 +17,45 @@ const AdminJobs = () => {
 
   useEffect(() => {
     dispatch(setSearchJobByText(input));
-  }, [input]);
+  }, [input, dispatch]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-12">
       <Navbar />
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8'>
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28'>
         {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-              Manage Jobs
-            </span>
+        <div className="mb-10">
+          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3">
+            <div className="bg-brand-100 text-brand-600 dark:bg-brand-900/30 dark:text-brand-400 p-2 rounded-xl">
+                <Briefcase className="h-6 w-6" />
+            </div>
+            Manage Jobs
           </h1>
-          <p className="text-slate-400">Create and manage your job listings</p>
+          <p className="text-slate-500 dark:text-slate-400 font-medium mt-2">Create, view, and manage all your job postings</p>
         </div>
 
-        <div className='max-w-6xl mx-auto'>
-          <div className='flex justify-end mb-6'>
+        <div className='bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm'>
+          <div className='flex flex-col sm:flex-row items-center justify-between gap-4 mb-8'>
+            <div className='relative w-full sm:w-96'>
+                <Search className='absolute left-3 top-3 h-5 w-5 text-slate-400' />
+                <input
+                    type="text"
+                    placeholder="Search jobs by role or company..."
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    className='w-full pl-10 pr-4 h-11 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all font-medium'
+                />
+            </div>
             <Button
               onClick={() => navigate("/recruiter/jobs/create")}
-              className="bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white"
+              className="w-full sm:w-auto h-11 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md shadow-brand-500/20 hover:-translate-y-0.5 transition-all"
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-5 w-5 mr-1.5" />
               Post New Job
             </Button>
           </div>
-          <div className='rounded-xl bg-white/5 backdrop-blur-lg border border-white/10 overflow-hidden'>
+          
+          <div className='overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800'>
             <AdminJobsTable />
           </div>
         </div>
