@@ -1,284 +1,148 @@
-# NextHire - Modern Job Portal
+# NextHire - AI-Powered Job Portal
 
-A comprehensive, full-stack Job Portal web application built with the MERN stack (MongoDB, Express, React, Node.js). The platform connects job seekers (students) with recruiters, allowing users to find and apply for jobs while empowering recruiters to manage companies, post jobs, and track applications.
-
-## 1. Project Overview
-**Purpose:** To streamline the hiring process by providing a unified platform for job seekers and recruiters.
-**Target Users:** 
-- **Job Seekers (Students):** Can browse jobs, search by categories, apply to jobs, and manage their profiles/resumes.
-- **Recruiters (Employers):** Can register their companies, post new job openings, view applicants, and update application statuses (pending, accepted, rejected).
+A modern, full-stack Job Portal web application built with the MERN stack (MongoDB, Express, React, Node.js). NextHire connects job seekers with top recruiters and features a premium Enterprise Glassmorphism UI, light/dark mode support, and cutting-edge Gemini AI integrations to help candidates prepare for their dream jobs.
 
 ---
 
-## 2. Tech Stack
+## 🚀 Key Features
+
+### 🎨 Premium Enterprise UI/UX
+- **Glassmorphism Aesthetic:** A stunning, highly-polished user interface built with Tailwind CSS, featuring subtle blur effects, gradients, and modern card layouts.
+- **Light & Dark Mode:** Full support for system-preference or manual toggling between a crisp light mode and a deep, rich indigo/slate dark mode.
+- **Responsive Design:** Completely optimized for mobile, tablet, and desktop viewing.
+
+### 🤖 AI-Powered Suite (Google Gemini)
+- **AI Interview Preparation Chatbot:** An integrated, context-aware AI interviewer that reads a candidate's resume and the job description to conduct a mock interview. It evaluates responses, provides actionable feedback, and gives a final performance score.
+- **AI Resume Parser:** Automatically extracts key skills, experience, and details from uploaded PDFs to streamline the profile creation process.
+
+### 👨‍🎓 For Job Seekers (Candidates)
+- **Job Discovery:** Browse, search, and filter job listings by location, role, and salary.
+- **One-Click Apply:** Apply to jobs instantly using saved profiles and uploaded resumes.
+- **Profile Management:** Manage personal details, track applied jobs, and store resumes securely in the cloud.
+
+### 🏢 For Employers (Recruiters)
+- **Modern Dashboard:** A centralized, SaaS-style hub to manage companies and job postings.
+- **Company Management:** Register new companies with logos and detailed descriptions.
+- **Job Posting:** Create detailed job listings with requirements, salary ranges, and experience levels.
+- **Applicant Tracking System (ATS):** Review candidates in clean data tables, view their resumes, and seamlessly update their shortlisting status (Accepted/Rejected).
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
 - **Framework:** React 18 (with Vite)
-- **Styling:** Tailwind CSS 4, Tailwind Merge, Tailwind Animate
-- **UI Components:** Radix UI, Framer Motion, Embla Carousel, Lucide React
+- **Styling:** Tailwind CSS (Custom Indigo/Violet Theme)
+- **UI Components:** Radix UI, Framer Motion, Lucide React
 - **State Management:** Redux Toolkit, React Redux, Redux Persist
-- **Routing:** React Router DOM (v7)
+- **Routing:** React Router DOM
 - **HTTP Client:** Axios
-- **Toast Notifications:** Sonner
+- **Notifications:** Sonner
 
 ### Backend
 - **Runtime:** Node.js
 - **Framework:** Express.js
-- **Database:** MongoDB (Mongoose ODM)
+- **Database:** MongoDB (Mongoose)
 - **Authentication:** JSON Web Tokens (JWT), bcryptjs
-- **File Uploads:** Multer, Cloudinary
-- **Environment Management:** dotenv
-- **CORS:** cors
+- **File Uploads:** Multer, Cloudinary (PDFs & Images)
+- **AI Integration:** `@google/genai` (Gemini 2.0 Flash)
 
 ---
 
-## 3. Project Structure
+## 📂 Project Structure
 
 ```text
-Job Portal/
+NextHire/
 ├── Backend/                    # Node.js + Express backend
-│   ├── controllers/            # Logic for handling API requests
-│   ├── middlewares/            # Auth, multer, and validation middlewares
-│   ├── models/                 # Mongoose schemas (User, Job, Company, Application)
+│   ├── controllers/            # API logic (auth, jobs, AI parsing)
+│   ├── middlewares/            # Auth, multer, and validation
+│   ├── models/                 # Mongoose schemas
 │   ├── routes/                 # Express API routes
-│   ├── utils/                  # DB connection and helper functions
-│   ├── index.js                # Entry point for the backend server
-│   ├── package.json            # Backend dependencies
-│   └── .env                    # Backend environment variables
+│   ├── utils/                  # DB connection, AI logic (resumeParser.js, interviewAI.js)
+│   ├── index.js                # Entry point
+│   └── package.json            # Backend dependencies
 │
 └── Frontend/                   # React + Vite frontend
-    ├── public/                 # Static assets
+    ├── public/                 # Static assets (favicon.svg)
     ├── src/                    # React source code
-    │   ├── assets/             # Images and icons
-    │   ├── components/         # Reusable and page-level React components
-    │   │   ├── admin/          # Recruiter/Admin specific components
-    │   │   ├── auth/           # Login and Signup components
-    │   │   ├── recruiter/      # Recruiter dashboard components
-    │   │   ├── shared/         # Common UI components (Navbar, Footer)
+    │   ├── components/         # Reusable React components
+    │   │   ├── admin/          # Recruiter/Admin dashboard views
+    │   │   ├── auth/           # Login and Signup
+    │   │   ├── recruiter/      # Recruiter entry points
+    │   │   ├── shared/         # Navbar, Footer, AI Chatbot, Resume Parser
     │   │   └── ui/             # Shadcn-like reusable UI elements
-    │   ├── hooks/              # Custom React hooks (e.g., fetching data)
-    │   ├── lib/                # Utility libraries
-    │   ├── redux/              # Redux store, slices, and reducers
-    │   ├── utils/              # Helper functions and constants
+    │   ├── redux/              # Redux store and slices
     │   ├── App.jsx             # Main application router setup
-    │   └── main.jsx            # React rendering entry point
-    ├── package.json            # Frontend dependencies
-    └── vite.config.js          # Vite configuration
+    │   └── index.css           # Global Tailwind and custom CSS variables
+    └── package.json            # Frontend dependencies
 ```
 
 ---
 
-## 4. Pages & Components
+## ⚙️ Environment Variables
 
-### Public / Job Seeker Pages
-- **Home (`/`)**: Landing page with Hero Section, Category Carousel, and Latest Jobs.
-- **Login (`/login`) & Signup (`/signup`)**: Authentication pages with role selection (Student/Recruiter).
-- **Jobs (`/jobs`)**: Job listing page with filtering options.
-- **Browse (`/browse`)**: Search and browse jobs by categories or keywords.
-- **Profile (`/profile`)**: User dashboard displaying personal details, skills, uploaded resume, and applied jobs table.
-- **Job Description (`/description/:id`)**: Detailed view of a specific job with an "Apply" button.
-
-### Recruiter / Admin Pages (Protected)
-- **Recruiter Dashboard (`/recruiter`)**: Overview of the recruiter's activities.
-- **Companies (`/recruiter/companies` & `/admin/companies`)**: List of registered companies for the recruiter.
-- **Company Setup (`/recruiter/companies/create` & `/:id`)**: Forms to register or update company details.
-- **Admin Jobs (`/recruiter/jobs` & `/admin/jobs`)**: List of jobs posted by the recruiter.
-- **Post Job (`/recruiter/jobs/create` & `/admin/jobs/create`)**: Form to create and publish a new job.
-- **Applicants (`/recruiter/jobs/:id/applicants` & `/admin/jobs/:id/applicants`)**: View list of applicants for a specific job and update their status.
-
----
-
-## 5. Routes (Frontend)
-
-Defined via `react-router-dom` in `App.jsx`.
-
-| Path | Component | Requires Auth? | Role |
-|------|-----------|----------------|------|
-| `/` | `<Home />` | No | Any |
-| `/login` | `<Login />` | No | Any |
-| `/signup` | `<Signup />` | No | Any |
-| `/jobs` | `<Jobs />` | No | Any |
-| `/description/:id` | `<JobDescription />` | No | Any |
-| `/browse` | `<Browse />` | No | Any |
-| `/profile` | `<Profile />` | Yes | Student |
-| `/recruiter` | `<RecruiterDashboard />` | Yes | Recruiter |
-| `/recruiter/jobs/create` | `<PostJob />` | Yes | Recruiter |
-| `/recruiter/companies` | `<Companies />` | Yes | Recruiter |
-| `/recruiter/companies/create` | `<CompanyCreate />` | Yes | Recruiter |
-| `/recruiter/companies/:id` | `<CompanySetup />` | Yes | Recruiter |
-| `/recruiter/jobs` | `<AdminJobs />` | Yes | Recruiter |
-| `/recruiter/jobs/:id/applicants` | `<Applicants />` | Yes | Recruiter |
-
-*(Note: The `/admin/*` routes map to the same components as `/recruiter/*` and act as aliases.)*
-
----
-
-## 6. API Endpoints (Backend)
-
-Base URL: `/api/v1`
-
-### User Routes (`/user`)
-- `POST /register`: Register a new user (handles profile photo/resume upload).
-- `POST /login`: Authenticate user and issue JWT cookie.
-- `PUT /update-profile`: Update user details (Auth required).
-- `GET /logout`: Clear JWT cookie and logout.
-
-### Company Routes (`/company`)
-- `POST /register`: Register a new company (Auth required).
-- `GET /get`: Get companies created by the logged-in recruiter (Auth required).
-- `GET /get/:id`: Get details of a specific company (Auth required).
-- `PUT /update/:id`: Update company details, including logo upload (Auth required).
-- `GET /past-recruiters`: Fetch list of past top recruiters.
-
-### Job Routes (`/job`)
-- `POST /post`: Create a new job posting (Auth required, Recruiter).
-- `GET /get`: Get all active jobs (supports query filtering).
-- `GET /getadminjobs`: Get all jobs posted by the logged-in recruiter (Auth required).
-- `GET /get/:id`: Get detailed info for a specific job.
-
-### Application Routes (`/application`)
-- `GET /apply/:id`: Apply for a job (Auth required, Student).
-- `GET /get`: Get all jobs applied by the logged-in user (Auth required).
-- `GET /:id/applicants`: Get all applicants for a specific job (Auth required, Recruiter).
-- `POST /status/:id/update`: Update application status (Pending, Accepted, Rejected) (Auth required, Recruiter).
-- `GET /recruiter/all`: Get all applications for the recruiter's jobs (Auth required).
-
----
-
-## 7. Authentication & Authorization
-- **Mechanism:** JWT (JSON Web Tokens) stored in HTTP-only cookies.
-- **Roles:**
-  - `student`: Can view jobs, apply to jobs, manage profile and resume.
-  - `recruiter`: Can manage companies, post jobs, view applicants, and update applicant statuses.
-- **Protection:** 
-  - Backend uses an `isAuthenticated` middleware that verifies the token.
-  - Frontend uses a `<ProtectedRoute />` wrapper for `/recruiter` and `/admin` routes to ensure only authenticated users with the correct role can access them.
-
----
-
-## 8. Database Models / Schema (MongoDB)
-
-### User Model
-- `fullname` (String)
-- `email` (String, Unique)
-- `phoneNumber` (Number)
-- `password` (String, Hashed)
-- `role` (String: `student`, `recruiter`)
-- `profile`: Includes `bio`, `skills`, `resume` (URL), `resumeOriginalName`, `company` (Ref), `profilePhoto` (URL).
-
-### Company Model
-- `name` (String, Unique)
-- `description` (String)
-- `website` (String)
-- `location` (String)
-- `logo` (String, URL)
-- `userId` (Ref: User) - The recruiter who created the company.
-
-### Job Model
-- `title` (String)
-- `description` (String)
-- `requirements` ([String])
-- `salary` (Number)
-- `experienceLevel` (Number)
-- `location` (String)
-- `jobType` (String)
-- `position` (Number)
-- `company` (Ref: Company)
-- `created_by` (Ref: User)
-- `applications` ([Ref: Application])
-
-### Application Model
-- `job` (Ref: Job)
-- `applicant` (Ref: User)
-- `status` (String: `pending`, `accepted`, `rejected` - Default: `pending`)
-
----
-
-## 9. Key Features
-- **Role-based Access:** Dedicated workflows for Job Seekers and Recruiters.
-- **Job Discovery:** Comprehensive job listings with search, filter (by location, role, salary), and categorization.
-- **One-Click Apply:** Students can easily apply to jobs with their saved profiles/resumes.
-- **Cloud Storage Integration:** Profile pictures and Resumes are securely uploaded and served via Cloudinary.
-- **Recruiter Dashboard:** Centralized hub for recruiters to manage their companies, active job postings, and review candidates.
-- **Application Tracking:** Real-time status updates (Pending, Accepted, Rejected) visible to the applicant.
-- **State Persistence:** User session and preferences are maintained using Redux Persist.
-
----
-
-## 10. Environment Variables
-
-Create a `.env` file in the root of both the `Backend` and `Frontend` directories.
+Create a `.env` file in both the `Backend` and `Frontend` directories.
 
 **Backend (`Backend/.env`)**
 ```env
-# MongoDB Connection String
-MONGO_URI=your_mongodb_connection_string
-
-# JWT Secret Key for Authentication
-SECRET_KEY=your_random_secret_key
-
-# Cloudinary Configuration for Image/PDF Uploads
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-
-# Frontend URL for CORS
-FRONTEND_URL=http://localhost:5173
+# Server
 PORT=8000
+FRONTEND_URL=http://localhost:5173
+
+# Database & Auth
+MONGO_URI=your_mongodb_connection_string
+SECRET_KEY=your_jwt_secret_key
+
+# Cloudinary (Resumes & Logos)
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# AI Features
+GEMINI_API_KEY=your_google_gemini_api_key
 ```
 
 **Frontend (`Frontend/.env`)**
 ```env
-# Backend API Base URL
 VITE_API_URL=http://localhost:8000/api/v1
 ```
 
 ---
 
-## 11. Setup & Installation
+## 🚀 Setup & Installation
 
-### Prerequisites
-- Node.js (v18+ recommended)
-- MongoDB account/cluster
-- Cloudinary account for media storage
-
-### Step-by-step Guide
-
-**1. Clone the repository and navigate to the project directory:**
+**1. Clone the repository:**
 ```bash
-# Assuming you have the code downloaded
-cd "Job Portal"
+git clone https://github.com/saurabh0772/NextHire.git
+cd NextHire
 ```
 
 **2. Backend Setup:**
 ```bash
 cd Backend
 npm install
-# Set up your .env file here based on the variables above
+# Ensure .env is configured
 npm run dev
 ```
-The backend server will start on `http://localhost:8000`.
+*Server runs on `http://localhost:8000`*
 
 **3. Frontend Setup:**
 ```bash
 # Open a new terminal
 cd Frontend
 npm install
-# Set up your .env file here based on the variables above
+# Ensure .env is configured
 npm run dev
 ```
-The frontend application will start on `http://localhost:5173`.
+*App runs on `http://localhost:5173`*
 
 ---
 
-## 12. Deployment
-
-- **Backend:** Designed to be easily deployed on services like Render, Heroku, or Railway. Ensure to set the environment variables in the host dashboard.
-- **Frontend:** Can be deployed seamlessly on Vercel or Netlify. The `vite build` command generates the production-ready static files. The current `.env` configuration suggests the backend API might be hosted on Render (`https://job-portal-app-8pst.onrender.com`).
+## 🔐 Authentication & Roles
+- **Candidates (`student`):** Access job boards, profile settings, AI mock interviews, and application tracking.
+- **Employers (`recruiter`):** Access the secure recruiter dashboard to manage companies, post jobs, and process applicants.
+- **Protection:** JWT tokens are securely stored in HTTP-only cookies.
 
 ---
 
-## 13. Known Issues / TODOs
-- Currently, there are no explicit `TODO` or `FIXME` comments in the main codebase.
-- *Potential enhancement:* Implement email notifications for application status updates.
-- *Potential enhancement:* Add pagination for job listings and applications to improve performance with large datasets.
+*Built with ❤️ for the modern job market.*
