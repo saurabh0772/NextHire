@@ -62,11 +62,13 @@ const AppliedJobTable = () => {
                                             <Building2 className='w-5 h-5 text-brand-500' />
                                         )}
                                     </div>
-                                    <span className='font-bold text-slate-900 dark:text-white line-clamp-1'>{application.job?.company?.name}</span>
+                                    <span className='font-bold text-slate-900 dark:text-white line-clamp-1'>
+                                        {application.job?.company?.name || 'Company Unavailable'}
+                                    </span>
                                 </div>
                             </TableCell>
                             <TableCell className='text-slate-600 dark:text-slate-300 font-medium line-clamp-1 py-4 block'>
-                                {application.job?.title}
+                                {application.job?.title || 'Job Unavailable'}
                             </TableCell>
                             <TableCell className='text-right'>
                                 <Badge 

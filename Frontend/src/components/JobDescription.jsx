@@ -24,6 +24,16 @@ const JobDescription = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const getExperienceLabel = (level) => {
+        switch (Number(level)) {
+            case 0: return 'Entry Level (0-2 years)';
+            case 1: return 'Mid Level (3-5 years)';
+            case 2: return 'Senior Level (5-8 years)';
+            case 3: return 'Executive (8+ years)';
+            default: return level ? `${level} years` : 'Not specified';
+        }
+    };
+
     const applyJobHandler = async () => {
         try {
             const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
@@ -182,7 +192,7 @@ const JobDescription = () => {
                                     </div>
                                     <div>
                                         <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>Experience Required</p>
-                                        <p className='font-medium text-slate-900 dark:text-white'>{singleJob?.experience} years</p>
+                                        <p className='font-medium text-slate-900 dark:text-white'>{getExperienceLabel(singleJob?.experienceLevel)}</p>
                                     </div>
                                 </div>
 

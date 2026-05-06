@@ -6,3 +6,4 @@ export const APPLICATION_API_END_POINT = `${BASE_URL}/api/v1/application`;
 export const COMPANY_API_END_POINT = `${BASE_URL}/api/v1/company`;
 export const RESUME_API_END_POINT = `${BASE_URL}/api/v1/resume`;
 export const INTERVIEW_API_END_POINT = `${BASE_URL}/api/v1/interview`;
+export const ANALYTICS_API_END_POINT = `${BASE_URL}/api/v1/analytics`;

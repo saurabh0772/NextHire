@@ -104,7 +104,7 @@ GEMINI_API_KEY=your_google_gemini_api_key
 
 **Frontend (`Frontend/.env`)**
 ```env
-VITE_API_URL=http://localhost:8000/api/v1
+VITE_API_URL=http://localhost:8000
 ```
 
 ---

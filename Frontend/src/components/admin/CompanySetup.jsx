@@ -86,7 +86,7 @@ const CompanySetup = () => {
             description: singleCompany?.description || "",
             website: singleCompany?.website || "",
             location: singleCompany?.location || "",
-            file: singleCompany?.file || null
+            file: null
         })
     },[singleCompany]);
 
@@ -171,6 +171,11 @@ const CompanySetup = () => {
                                         className="pl-12 h-12 pt-2.5 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-300 rounded-xl focus:border-brand-500 focus:ring-brand-500 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-600 hover:file:bg-brand-100 dark:file:bg-brand-900/30 dark:file:text-brand-400 cursor-pointer"
                                     />
                                 </div>
+                                {singleCompany?.logo && (
+                                    <div className="mt-2 w-24 h-24 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden bg-slate-50 dark:bg-slate-800">
+                                        <img src={singleCompany.logo} alt="Company Logo" className="w-full h-full object-contain" />
+                                    </div>
+                                )}
                             </div>
                         </div>
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Button } from '../ui/button'
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar'
-import { LogOut, User2, Menu, X, LayoutDashboard, Briefcase, Building2 } from 'lucide-react'
+import { LogOut, User2, Menu, X, LayoutDashboard, Briefcase, Building2, BarChart2 } from 'lucide-react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
@@ -100,6 +100,11 @@ const Navbar = () => {
                                 <li>
                                     <Link to="/recruiter/jobs" className='text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-1.5'>
                                         <Briefcase size={16} /> Jobs
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/recruiter/analytics" className='text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-1.5'>
+                                        <BarChart2 size={16} /> Analytics
                                     </Link>
                                 </li>
                             </>
@@ -216,6 +221,15 @@ const Navbar = () => {
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                             >
                                                 <Briefcase size={18} className="text-brand-500" /> Jobs
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link 
+                                                to="/recruiter/analytics" 
+                                                className='flex items-center gap-2 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200'
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                <BarChart2 size={18} className="text-brand-500" /> Analytics
                                             </Link>
                                         </li>
                                     </>
