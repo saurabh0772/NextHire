@@ -97,28 +97,27 @@ const UpdateProfileDialog = () => {
           />
         </div>
 
+        <div className="space-y-1.5">
+          <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Bio</label>
+          <textarea
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            rows={3}
+            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium resize-none"
+          />
+        </div>
+
         {user?.role !== 'recruiter' && (
-          <>
-            <div className="space-y-1.5">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Bio</label>
-              <textarea
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                rows={3}
-                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium resize-none"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Skills (comma separated)</label>
-              <input
-                type="text"
-                value={skills}
-                onChange={(e) => setSkills(e.target.value)}
-                placeholder="React, Node, Express..."
-                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium"
-              />
-            </div>
-          </>
+          <div className="space-y-1.5">
+            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Skills (comma separated)</label>
+            <input
+              type="text"
+              value={skills}
+              onChange={(e) => setSkills(e.target.value)}
+              placeholder="React, Node, Express..."
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium"
+            />
+          </div>
         )}
 
         <div className="space-y-1.5">

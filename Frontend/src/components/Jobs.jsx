@@ -7,23 +7,67 @@ import { motion } from 'framer-motion';
 import { Search, Briefcase } from 'lucide-react';
 
 const Jobs = () => {
-    const { allJobs, searchedQuery } = useSelector(store => store.job);
+    const { allJobs, searchedQuery, filterQuery } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState(allJobs);
     const [searchInput, setSearchInput] = useState("");
 
     useEffect(() => {
-        if (searchedQuery || searchInput) {
-            const query = searchedQuery || searchInput;
-            const filteredJobs = allJobs.filter((job) => {
-                return job.title.toLowerCase().includes(query.toLowerCase()) ||
-                    job.description.toLowerCase().includes(query.toLowerCase()) ||
-                    job.location.toLowerCase().includes(query.toLowerCase())
-            })
-            setFilterJobs(filteredJobs)
-        } else {
-            setFilterJobs(allJobs)
+        let filtered = [...allJobs];
+
+        // 1. Text Search (Home Page Category or local Search Bar)
+        const textQuery = searchedQuery || searchInput;
+        if (textQuery) {
+            const queryStr = textQuery.toLowerCase();
+            filtered = filtered.filter((job) => {
+                return job.title.toLowerCase().includes(queryStr) ||
+                    job.description.toLowerCase().includes(queryStr) ||
+                    job.location.toLowerCase().includes(queryStr) ||
+                    job.company?.name?.toLowerCase().includes(queryStr);
+            });
         }
-    }, [allJobs, searchedQuery, searchInput]);
+
+        // 2. FilterCard Location
+        if (filterQuery?.location) {
+            filtered = filtered.filter(job => job.location.toLowerCase().includes(filterQuery.location.toLowerCase()));
+        }
+
+        // 3. FilterCard Industry (matches title or description since there isn't an explicit 'industry' field)
+        if (filterQuery?.industry) {
+            filtered = filtered.filter(job => 
+                job.title.toLowerCase().includes(filterQuery.industry.toLowerCase()) || 
+                job.description.toLowerCase().includes(filterQuery.industry.toLowerCase())
+            );
+        }
+
+        // 4. FilterCard Salary
+        if (filterQuery?.salary) {
+            const salaryStr = filterQuery.salary;
+            filtered = filtered.filter(job => {
+                // If it's a predefined range like "10-15 LPA"
+                if (salaryStr.includes("LPA")) {
+                    const parsed = salaryStr.split(" ")[0]; // "3-5" or "20+"
+                    if (parsed.includes("-")) {
+                        const [min, max] = parsed.split("-").map(Number);
+                        return job.salary >= min && job.salary <= max;
+                    } else if (parsed.includes("+")) {
+                        const min = Number(parsed.replace("+", ""));
+                        return job.salary >= min;
+                    }
+                } 
+                // Manual number input like "15" or text
+                else {
+                    const num = Number(salaryStr.replace(/[^0-9]/g, ''));
+                    if (!isNaN(num) && num > 0) {
+                        return job.salary >= num;
+                    }
+                    return true;
+                }
+                return true;
+            });
+        }
+
+        setFilterJobs(filtered);
+    }, [allJobs, searchedQuery, searchInput, filterQuery]);
 
     return (
         <div className='min-h-screen bg-slate-50 dark:bg-slate-950'>

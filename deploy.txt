@@ -1,0 +1,65 @@
+========================================================
+                      NEXTHIRE
+            AI-Powered Job Portal Platform
+========================================================
+
+1. PROJECT OVERVIEW
+NextHire is a comprehensive, full-stack Job Portal web application built to bridge the gap between talented job seekers and leading recruiters. 
+
+With a premium "Enterprise Glassmorphism" user interface and powerful Google Gemini 2.0 AI integrations, NextHire streamlines the hiring process by automating resume parsing and offering an interactive AI-powered mock interview simulator for candidates.
+
+--------------------------------------------------------
+2. KEY FEATURES
+--------------------------------------------------------
+For Job Seekers (Students/Candidates):
+- AI Interview Simulator: Practice interviews with an integrated Gemini AI chatbot that analyzes your resume and the job description to ask relevant questions and provide performance feedback.
+- AI Resume Parser: Upload a PDF resume and let the AI automatically extract your skills, experience, and contact details to instantly populate your profile.
+- Job Discovery: Advanced search and filtering (by role, location, salary) to find the perfect opportunities.
+- One-Click Apply: Quickly submit applications to jobs using saved profiles and cloud-hosted resumes.
+- Application Tracking: Monitor the real-time status (Pending, Accepted, Rejected) of all submitted applications.
+
+For Employers (Recruiters):
+- Modern Admin Dashboard: A sleek, centralized hub to oversee all recruitment activities.
+- Company Profiles: Register and manage multiple company profiles, complete with custom logos and descriptions.
+- Job Management: Easily draft, publish, and manage detailed job listings.
+- Applicant Tracking System (ATS): Review candidates in organized data tables, view resumes via direct Cloudinary links, and seamlessly update shortlisting statuses.
+
+General Platform Features:
+- Light/Dark Mode Support: Beautifully crafted UI that respects system preferences or manual toggles.
+- Premium UI/UX: Fully responsive layout featuring smooth animations, glassmorphism elements, and a custom Indigo/Violet brand theme.
+- Secure Authentication: Role-based access control (Student vs. Recruiter) utilizing secure, HTTP-only JWT cookies.
+
+--------------------------------------------------------
+3. TECHNOLOGY STACK
+--------------------------------------------------------
+Frontend (Client-side):
+- Core: React 18, Vite
+- Styling: Tailwind CSS (v4), Tailwind Animate, Tailwind Merge
+- UI Components: Radix UI primitives, Framer Motion (animations), Lucide React (icons)
+- State Management: Redux Toolkit, React-Redux, Redux-Persist
+- Routing & Navigation: React Router DOM (v7)
+- HTTP Client: Axios
+- Notifications: Sonner (toast alerts)
+
+Backend (Server-side):
+- Environment: Node.js
+- Framework: Express.js
+- Database: MongoDB via Mongoose ODM
+- Authentication: JSON Web Tokens (JWT) & bcryptjs (password hashing)
+- File Handling: Multer (local parsing) & Cloudinary (cloud storage for images/PDFs)
+- PDF Processing: pdf-parse (for extracting text from resumes)
+
+Artificial Intelligence:
+- Provider: Google Gemini AI
+- SDK: @google/genai (Gemini 2.0 Flash Model)
+- Usage: Context-aware interview generation and intelligent resume data extraction.
+
+--------------------------------------------------------
+4. DEPLOYMENT ARCHITECTURE
+--------------------------------------------------------
+- Frontend Hosting: Vercel (Optimized for Vite/React)
+- Backend Hosting: Render (Node.js Web Service)
+- Database Hosting: MongoDB Atlas
+- Media Storage: Cloudinary
+
+========================================================

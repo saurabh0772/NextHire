@@ -26,7 +26,7 @@ const PostJob = () => {
         location: '',
         salary: '',
         jobType: 'Full-time',
-        experience: 0,
+        experience: "",
         status: 'Active',
         position: 1
     });
@@ -213,14 +213,14 @@ const PostJob = () => {
                                         onValueChange={(value) => handleSelectChange('experience', value)}
                                     >
                                         <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-brand-500 font-medium">
-                                            <SelectValue />
+                                            <SelectValue placeholder="Select Experience Level" />
                                         </SelectTrigger>
                                         <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl">
                                             {[
-                                                { value: 0, label: 'Entry Level (0-2 years)' },
-                                                { value: 1, label: 'Mid Level (3-5 years)' },
-                                                { value: 2, label: 'Senior Level (5-8 years)' },
-                                                { value: 3, label: 'Executive (8+ years)' }
+                                                { value: "0", label: 'Entry Level (0-2 years)' },
+                                                { value: "1", label: 'Mid Level (3-5 years)' },
+                                                { value: "2", label: 'Senior Level (5-8 years)' },
+                                                { value: "3", label: 'Executive (8+ years)' }
                                             ].map(exp => (
                                                 <SelectItem 
                                                     key={exp.value} 
