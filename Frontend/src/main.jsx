@@ -15,6 +15,21 @@ import axios from 'axios'
 // Set global axios defaults for credentials
 axios.defaults.withCredentials = true;
 
+// Set up Axios interceptor to add Authorization header from Redux state
+axios.interceptors.request.use(
+  (config) => {
+    const state = store.getState();
+    const token = state.auth.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>

@@ -114,7 +114,8 @@ export const login = async (req, res) => {
             .json({
                 message: `Welcome back, ${user.fullname}`,
                 success: true,
-                user
+                user,
+                token // Return token in body for cross-domain local storage fallback
             });
     } catch (error) {
         console.log(error);

@@ -26,12 +26,18 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
+    token: null,
     loading: false,
     error: null,
   },
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload?.user || action.payload; // Handle both full response and just user object
+      if (action.payload?.token) {
+        state.token = action.payload.token;
+      } else if (action.payload === null) {
+        state.token = null;
+      }
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
