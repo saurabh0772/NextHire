@@ -102,12 +102,14 @@ export const login = async (req, res) => {
             profile: user.profile
         };
 
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.FRONTEND_URL?.includes('vercel.app');
+        
         return res.status(200)
             .cookie("token", token, { 
                 maxAge: 24 * 60 * 60 * 1000, 
                 httpOnly: true, 
-                sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
-                secure: process.env.NODE_ENV === 'production' ? true : false
+                sameSite: isProduction ? "None" : "Lax",
+                secure: isProduction ? true : false
             })
             .json({
                 message: `Welcome back, ${user.fullname}`,
@@ -122,11 +124,13 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.FRONTEND_URL?.includes('vercel.app');
+
         return res.status(200).cookie("token", "", { 
             maxAge: 0,
             httpOnly: true, 
-            sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
-            secure: process.env.NODE_ENV === 'production' ? true : false
+            sameSite: isProduction ? "None" : "Lax",
+            secure: isProduction ? true : false
         }).json({
             message: "Logged out successfully",
             success: true
