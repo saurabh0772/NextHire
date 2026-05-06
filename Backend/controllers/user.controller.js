@@ -106,8 +106,8 @@ export const login = async (req, res) => {
             .cookie("token", token, { 
                 maxAge: 24 * 60 * 60 * 1000, 
                 httpOnly: true, 
-                sameSite: "Lax", // Changed from "None" for easier local/mobile testing
-                secure: false    // Changed from true to allow HTTP testing on local network
+                sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
+                secure: process.env.NODE_ENV === 'production' ? true : false
             })
             .json({
                 message: `Welcome back, ${user.fullname}`,
@@ -125,8 +125,8 @@ export const logout = async (req, res) => {
         return res.status(200).cookie("token", "", { 
             maxAge: 0,
             httpOnly: true, 
-            sameSite: "Lax",
-            secure: false
+            sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
+            secure: process.env.NODE_ENV === 'production' ? true : false
         }).json({
             message: "Logged out successfully",
             success: true
