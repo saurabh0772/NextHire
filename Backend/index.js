@@ -21,6 +21,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// Trust proxy for secure cookies on Render/Vercel
+app.set('trust proxy', 1);
+
 // Create uploads directory if it doesn't exist
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
