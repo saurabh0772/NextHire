@@ -280,6 +280,12 @@ export const updateProfile = async (req, res) => {
             user,
             success: true
         });
+    } catch (error) {
+        console.error("Update profile error:", error);
+        res.status(500).json({ 
+            message: error.message || "Internal Server Error", 
+            success: false 
+        });
     }
 };
 
