@@ -43,12 +43,12 @@ const allowedOrigins = [
     process.env.FRONTEND_URL,
     'https://next-hire-omega-ruby.vercel.app',
     'http://localhost:5173',
-    'http://127.0.0.1:5173'
+    'http://127.0.0.1:5173',
+    'http://localhost:3000'
 ];
 
 const corsOptions = {
     origin: function (origin, callback) {
-        // allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
             callback(null, true);
@@ -58,10 +58,11 @@ const corsOptions = {
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Cookie']
 };
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle OPTIONS preflight requests
 
 const PORT = process.env.PORT || 8000;
 

@@ -5,7 +5,7 @@ import { Input } from '../ui/input'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import axiosInstance from '@/utils/axiosInstance'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,14 +30,16 @@ const Login = () => {
         e.preventDefault();
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+            const res = await axiosInstance.post(`${USER_API_END_POINT}/login`, input, {
                 headers: {
                     "Content-Type": "application/json"
-                },
-                withCredentials: true,
+                }
             });
             if (res.data.success) {
-                dispatch(setUser(res.data.user));
+                if (res.data.token) {
+                    localStorage.setItem('token', res.data.token);
+                }
+                dispatch(setUser(res.data));
                 navigate("/");
                 toast.success(res.data.message);
             }
