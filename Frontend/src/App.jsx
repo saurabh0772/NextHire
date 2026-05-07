@@ -1,4 +1,9 @@
+import { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import axiosInstance from './utils/axiosInstance'
+import { USER_API_END_POINT } from './utils/constant'
+import { setUser } from './redux/authSlice'
 import Navbar from './components/shared/Navbar'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
@@ -107,6 +112,30 @@ const appRouter = createBrowserRouter([
 ])
 
 function App() {
+  const dispatch = useDispatch();
+  const { user } = useSelector(store => store.auth);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const res = await axiosInstance.get(`${USER_API_END_POINT}/me`);
+          if (res.data.success) {
+            dispatch(setUser(res.data));
+          }
+        }
+      } catch (error) {
+        console.log("Session restore failed:", error);
+        localStorage.removeItem('token');
+        dispatch(setUser(null));
+      }
+    };
+    
+    // Only fetch if we have a token but maybe the user data is old or missing
+    fetchUser();
+  }, [dispatch]);
+
   return (
     <div>
       <RouterProvider router={appRouter} />

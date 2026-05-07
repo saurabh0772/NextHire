@@ -15,11 +15,10 @@ import axios from 'axios'
 // Set global axios defaults for credentials
 axios.defaults.withCredentials = true;
 
-// Set up Axios interceptor to add Authorization header from Redux state
+// Set up Axios interceptor to add Authorization header from localStorage
 axios.interceptors.request.use(
   (config) => {
-    const state = store.getState();
-    const token = state.auth.token;
+    const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
