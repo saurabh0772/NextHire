@@ -35,7 +35,7 @@ export const register = async (req, res) => {
         }
 
         // Create user with profile photo
-        await User.create({
+        const user = await User.create({
             fullname,
             email,
             phoneNumber,
@@ -46,10 +46,31 @@ export const register = async (req, res) => {
             }
         });
 
-        return res.status(201).json({
-            message: "Account created successfully",
-            success: true
-        });
+        const tokenData = { userId: user._id };
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
+
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.FRONTEND_URL?.includes('vercel.app');
+
+        return res.status(201)
+            .cookie("token", token, { 
+                maxAge: 24 * 60 * 60 * 1000, 
+                httpOnly: true, 
+                sameSite: isProduction ? "None" : "Lax",
+                secure: isProduction ? true : false
+            })
+            .json({
+                message: "Account created successfully",
+                success: true,
+                user: {
+                    _id: user._id,
+                    fullname: user.fullname,
+                    email: user.email,
+                    phoneNumber: user.phoneNumber,
+                    role: user.role,
+                    profile: user.profile
+                },
+                token
+            });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal Server Error", success: false });
@@ -259,11 +280,36 @@ export const updateProfile = async (req, res) => {
             user,
             success: true
         });
-    } catch (error) {
-        console.error("Update profile error:", error);
-        res.status(500).json({ 
-            message: error.message || "Internal Server Error", 
-            success: false 
-        });
     }
 };
+
+export const getUser = async (req, res) => {
+    try {
+        const userId = req.id;
+        let user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(400).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        user = {
+            _id: user._id,
+            fullname: user.fullname,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            role: user.role,
+            profile: user.profile
+        };
+
+        return res.status(200).json({
+            user,
+            success: true
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Server Error", success: false });
+    }
+}
