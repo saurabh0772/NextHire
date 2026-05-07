@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+console.log("Starting server...");
 dotenv.config();
 
 import express, { application, urlencoded } from "express";
@@ -73,6 +74,7 @@ app.use("/api/v1/resume", resumeRoute);
 app.use("/api/v1/interview", interviewRoute);
 app.use("/api/v1/analytics", analyticsRoute);
 
+console.log("Attempting to start server on port:", PORT);
 app.listen(PORT, () => {
     connectDB();
     console.log(`server is running at port ${PORT}`);
