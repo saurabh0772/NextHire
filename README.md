@@ -227,29 +227,8 @@ sequenceDiagram
 
 ---
 
-## 7. Application Screenshots / Demo
-
-### Production Deployment
-- **Live Frontend URL:** [https://next-hire-omega-ruby.vercel.app](https://next-hire-omega-ruby.vercel.app) *(Verified from backend CORS configuration and production routing)*
-
-### Visual Assets in Repository
-The repository includes the following static graphic assets:
-- **Hero Illustration:** [`Frontend/src/assets/hero-illustration.svg`](file:///home/saurabh/Documents/PROJECTS/next-hire/Frontend/src/assets/hero-illustration.svg)
-- **Brand Logo Asset:** [`Frontend/src/assets/expenselogo.png`](file:///home/saurabh/Documents/PROJECTS/next-hire/Frontend/src/assets/expenselogo.png)
-- **Application Favicon:** [`Frontend/public/favicon.svg`](file:///home/saurabh/Documents/PROJECTS/next-hire/Frontend/public/favicon.svg)
-
-### UI Screenshot Placeholders
-*(To include actual application screenshots, save your PNG/JPG captures to `Frontend/src/assets/screenshots/` and update the paths below)*
-
-| Candidate Job Discovery & Search | AI Mock Interview Simulator |
-|:---:|:---:|
-| `![Candidate Jobs](Frontend/src/assets/hero-illustration.svg)` | `![AI Chatbot](Frontend/src/assets/hero-illustration.svg)` |
-| *Job search with salary and role filters* | *5-stage dynamic Gemini interview simulation* |
-
-| AI Resume Parsing Flow | Recruiter Analytics Dashboard |
-|:---:|:---:|
-| `![Resume Parser](Frontend/src/assets/hero-illustration.svg)` | `![Recruiter Analytics](Frontend/src/assets/hero-illustration.svg)` |
-| *Automated skills extraction from PDF* | *Recharts KPI breakdown, trend lines & skills frequency* |
+## 7. Production Deployment
+- **Live Frontend URL:** [https://next-hire-omega-ruby.vercel.app](https://next-hire-omega-ruby.vercel.app) 
 
 ---
 
